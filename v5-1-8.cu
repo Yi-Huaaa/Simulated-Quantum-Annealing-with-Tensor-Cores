@@ -52,8 +52,8 @@ using namespace nvcuda;
 #define IDX2C(i,j,ld) (((j)*(ld))+(i))
 
 // SQA parameters
-#define N 8192
-#define M 16 
+#define N 16384
+#define M 128
 #define M_2 128
 
 #define TIMES 10
@@ -105,7 +105,6 @@ void construct_spin(float *spin, float *spin_fp32,int total_spins){
 }
 
 void construct_rand_val(float *rand_val, float *rand_val_fp32){
-    srand(time(0));
     for(int i = 0; i < N; i++){
         for(int j = 0; j < M; j++){
             rand_val[IDX2C(i,j,N)] = ((float)rand()/(float)(RAND_MAX)) * 1.0;
@@ -140,13 +139,12 @@ void update_delta_H(cublasHandle_t cublasHandle, float *couplings_fp32, float *m
 }
 
 void construct_lograndval(float *log_rand_val, float *log_rand_val_fp32, cudaStream_t stream){
-    srand(time(0));
     for(int i = 0; i < N/2; i++){
         for(int j = 0; j < M; j++){
             log_rand_val[IDX2C(i,j,N)] = (-log(((float)rand()/(float)(RAND_MAX)) * 1.0));
         }
     }
-    for(int i = 0; i < N/2; i++){
+    for(int i = 0; i  < N/2; i++){
         for(int j = 0; j < M; j++){
             log_rand_val[IDX2C(i+N/2,j,N)] = log_rand_val[IDX2C(i,j,N)];
         }
@@ -174,7 +172,7 @@ __global__ void judge_flipping_com (float *couplings_fp32,float *delta_H_fp32, f
     extern __shared__ float deltas[];
     deltas[threadIdx.x] = delta_H_fp32[IDX2C(start_spin+threadIdx.x, m, N)];
 
-    // 先坐前面8個，even: 0~7; odd: 8~15
+    // even: 0~M_2/2-1; odd: M_2/2~M_2-1
     for (int n = 0; n < M_2; n++) {
         int nn = start_spin + ((first_rd_idx*(M_2/2) + n)&(M_2-1));
         idx = IDX2C(nn,m,N);
@@ -300,8 +298,8 @@ int main(int argc, char* argv[]) {
             float J_perp = -0.5*log(tanh((Gamma/M)*beta))/beta;
             
             construct_lograndval(log_rand_val, log_rand_val_fp32, stream1);
-            for (int n = 0; n < N; n+=M_2) {
-                judge_flipping_com <<< 16, M_2, 16*sizeof(float), stream2 >>> (couplings_fp32, delta_H_fp32, spin_fp32, matrix_B_fp32, log_rand_val_fp32, J_perp, beta, n);
+            for (int n = 0; n < N; n += M_2) {
+                judge_flipping_com <<< M, M_2, 16*sizeof(float), stream2 >>> (couplings_fp32, delta_H_fp32, spin_fp32, matrix_B_fp32, log_rand_val_fp32, J_perp, beta, n);
                 update_delta_H(cublasHandle, couplings_fp32, matrix_B_fp32, delta_H_fp32, n);              
             }
             beta += increase;
