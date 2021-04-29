@@ -4,7 +4,7 @@ CUDAFLAGS=-arch=sm_80 -lcublas
 # target cuda code
 TARGET=v5-1-8
 
-SPINS=1024 2048 4096 8192 16384
+SPINS=1024 2048 4096 8192 16384 32768
 TROTTERS=8 16 32 64 128
 
 all: directories binary
@@ -27,7 +27,10 @@ directories:
 	@if ! [ -d "./Gset" ]; then echo "Gset/ dose not exist, check http://web.stanford.edu/~yyye/yyye/Gset/"; exit 0 ;fi
 
 speed:
-	@declare -A GSETS=( ["1024"]=G1 ["2048"]=G22 ["4096"]=G48 ["8192"]=G65 ["16384"]=G77 ["32767"]=G81 )\
+	@# make sure Gset/ is here
+	@if ! [ -d "./speed_logs" ]; then mkdir speed_logs/; fi
+	
+	@declare -A GSETS=( ["1024"]=G1 ["2048"]=G22 ["4096"]=G48 ["8192"]=G65 ["16384"]=G77 ["32768"]=G81 )\
 	; for n in $(SPINS) ; do \
 		for m in $(TROTTERS); do \
 			Gset_file=$${GSETS[$${n}]}; \
