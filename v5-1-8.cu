@@ -53,10 +53,10 @@ using namespace nvcuda;
 
 // SQA parameters
 #define N 32768
-#define M 128
-#define M_2 16
+#define M 16
+#define M_2 128
 
-#define TIMES 10
+#define TIMES 1
 #define STEP 100
 
 // Must be multiples of 16
