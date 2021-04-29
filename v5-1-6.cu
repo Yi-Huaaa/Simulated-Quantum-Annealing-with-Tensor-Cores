@@ -1,4 +1,5 @@
 /*
+random移到外面
 和 515差別：random 的時間算進去
 
 問題：答案越大越不準
@@ -129,7 +130,7 @@ __device__ void flip_com (float *couplings_fp32,float *delta_H_fp32, float *spin
         delta = delta_H_fp32[idx];
         
         for(int i = start_spin + first_rd_idx*16; i < n; i++){
-            delta += 2*couplings_fp32[IDX2C(i,n,N)]*matrix_B_fp32[IDX2C(i%M_2, m, M)];
+            delta += couplings_fp32[IDX2C(i,n,N)]*matrix_B_fp32[IDX2C(i%M_2, m, M)];
         }
 
         upper = (m == 0 ? M-1 : m-1);
@@ -152,11 +153,11 @@ __device__ void flip_com (float *couplings_fp32,float *delta_H_fp32, float *spin
         
         //更新delta: 上面後16個spin做的
         for(int i = (start_spin + first_rd_idx * 16); i < (start_spin + 16 + first_rd_idx * 16); i++){
-            delta += 2*couplings_fp32[IDX2C(i,n,N)]*matrix_B_fp32[IDX2C(i%M_2, m, M)];
+            delta += couplings_fp32[IDX2C(i,n,N)]*matrix_B_fp32[IDX2C(i%M_2, m, M)];
         }
         //更新delta: 本輪做的
         for(int i = (start_spin + second_rd_idx * 16); i < n; i++){
-            delta += 2*couplings_fp32[IDX2C(i,n,N)]*matrix_B_fp32[IDX2C(i%M_2, m, M)];
+            delta += couplings_fp32[IDX2C(i,n,N)]*matrix_B_fp32[IDX2C(i%M_2, m, M)];
         }
 
         upper = (m == 0 ? M-1 : m-1);
@@ -271,10 +272,11 @@ int main(int argc, char* argv[]) {
         double curr = 0.;
         clock_t begin, end;
 
+        begin = clock();
         for (int p = 0; p < STEP; p++) {
             float Gamma = G0*(1.-(float)p/(float)STEP);
             float J_perp = -0.5*log(tanh((Gamma/M)*beta))/beta;
-            begin = clock();
+
 
             for (int n = 0; n < N; n+=32) {
                 construct_lograndval(log_rand_val, log_rand_val_fp32, beta);
@@ -282,15 +284,15 @@ int main(int argc, char* argv[]) {
                 update_delta_H(cublasHandle, couplings_fp32, matrix_B_fp32, delta_H_fp32, n);              
             }
             beta += increase;
-            end = clock();
-            double duration = (double)(end-begin) / CLOCKS_PER_SEC;
-            curr += duration;
-            used_time[t] = curr;
-            //int E = calculate_E(spin, spin_fp32, couplings);
-            //results[t] = E;
-            //printf("curr: %10lf, energy: %10d\n", curr, E);
         } 
+        cudaDeviceSynchronize();
+        end = clock();
+        double duration = (double)(end-begin) / CLOCKS_PER_SEC;
+        //curr += duration;
 
+        used_time[t] = duration;
+        int E = calculate_E(spin, spin_fp32, couplings);
+        results[t] = E;
     }
     
 

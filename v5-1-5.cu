@@ -1,4 +1,5 @@
 /*
+more parallel
 和 514差別：一次翻32*16個，開16 threads
 
 問題：答案越大越不準
@@ -17,7 +18,7 @@ using namespace nvcuda;
 #define IDX2C(i,j,ld) (((j)*(ld))+(i))
 
 // SQA parameters
-#define N 16384
+#define N 1024
 #define M 16 
 #define M_2 32
 
@@ -140,7 +141,9 @@ __device__ void flip_com (float *couplings_fp32,float *delta_H_fp32, float *spin
         delta = delta_H_fp32[idx];
         
         for(int i = start_spin + first_rd_idx*16; i < n; i++){
-            delta += 2*couplings_fp32[IDX2C(i,n,N)]*matrix_B_fp32[IDX2C(i%M_2, m, M_2)];
+            if(spin_fp32[IDX2C(i, m, N)] != 0)
+                delta += 2*couplings_fp32[IDX2C(i,n,N)]*spin_fp32[IDX2C(i, m, N)];            
+            //delta += 2*couplings_fp32[IDX2C(i,n,N)]*matrix_B_fp32[IDX2C(i%M_2, m, M_2)];
         }
 
         upper = (m == 0 ? M-1 : m-1);
@@ -163,11 +166,15 @@ __device__ void flip_com (float *couplings_fp32,float *delta_H_fp32, float *spin
         
         //更新delta: 上面後16個spin做的
         for(int i = (start_spin + first_rd_idx * 16); i < (start_spin + 16 + first_rd_idx * 16); i++){
-            delta += 2*couplings_fp32[IDX2C(i,n,N)]*matrix_B_fp32[IDX2C(i%M_2, m, M_2)];
+            if(spin_fp32[IDX2C(i, m, N)] != 0)
+                delta += 2*couplings_fp32[IDX2C(i,n,N)]*spin_fp32[IDX2C(i, m, N)];
+                //delta += 2*couplings_fp32[IDX2C(i,n,N)]*matrix_B_fp32[IDX2C(i%M_2, m, M_2)];
         }
         //更新delta: 本輪做的
         for(int i = (start_spin + second_rd_idx * 16); i < n; i++){
-            delta += 2*couplings_fp32[IDX2C(i,n,N)]*matrix_B_fp32[IDX2C(i%M_2, m, M_2)];
+            if(spin_fp32[IDX2C(i, m, N)] != 0)
+                delta += 2*couplings_fp32[IDX2C(i,n,N)]*spin_fp32[IDX2C(i, m, N)];            
+            //delta += 2*couplings_fp32[IDX2C(i,n,N)]*matrix_B_fp32[IDX2C(i%M_2, m, M_2)];
         }
 
         upper = (m == 0 ? M-1 : m-1);
@@ -187,6 +194,15 @@ __global__ void judge_flipping_com (float *couplings_fp32, float *delta_H_fp32, 
     flip_com(couplings_fp32, delta_H_fp32, spin_fp32, matrix_B_fp32, rand_val_fp32, J_perp, beta, start_spin, idx);
 }
 
+
+__global__ void clear_matrix_B (float *matrix_B_fp32){
+    for(int i = 0; i < M_2
+        ; i++){
+        for(int j = 0; j < M; j++){
+            matrix_B_fp32[IDX2C(i,j,M)] = 0.;
+        }
+    }
+}
 
 int main(int argc, char* argv[]) {
     if (argc != 2) 
@@ -280,26 +296,28 @@ int main(int argc, char* argv[]) {
         // Current cost time
         double curr = 0.;
         clock_t begin, end;
-
+        begin = clock();
         for (int p = 0; p < STEP; p++) {
             float Gamma = G0*(1.-(float)p/(float)STEP);
             float J_perp = -0.5*log(tanh((Gamma/M)*beta))/beta;
-            begin = clock();
 
             for (int n = 0; n < N; n+=32) {
                 judge_flipping_com <<< 1, 16, 0 >>> (couplings_fp32, delta_H_fp32, spin_fp32, matrix_B_fp32, rand_val_fp32, J_perp, beta, n);
                 update_delta_H(cublasHandle, couplings_fp32, matrix_B_fp32, delta_H_fp32, n);              
+                //clear_matrix_B <<< 1,1,0 >>> (matrix_B_fp32);
+
             }
             beta += increase;
-            end = clock();
-            double duration = (double)(end-begin) / CLOCKS_PER_SEC;
-            curr += duration;
-            used_time[t] = curr;
             //printf("curr: %10lf, energy: %10d\n", curr, E);
         } 
+        cudaDeviceSynchronize();
+        end = clock();
+        double duration = (double)(end-begin) / CLOCKS_PER_SEC;
+        //curr += duration;
+
+        used_time[t] = duration;
         int E = calculate_E(spin, spin_fp32, couplings);
         results[t] = E;
-
 
     }
     

@@ -1,4 +1,5 @@
 /*
+pre calculate
 答案對
 Properties:
 new method
@@ -21,7 +22,7 @@ using namespace nvcuda;
 #define IDX2C(i,j,ld) (((j)*(ld))+(i))
 
 // SQA parameters
-#define N 2048
+#define N 1024
 #define M 16 
 
 #define TIMES 1//10
@@ -303,12 +304,12 @@ int main(int argc, char* argv[]) {
         construct_delta_H(cublasHandle,couplings_fp32, spin_fp32, delta_H_fp32);
         construct_rand_val(rand_val, rand_val_fp32);
         clock_t begin, end;
-
+        begin = clock();
+        
         for (int p = 0; p < STEP; p++) {
 
             float Gamma = G0*(1.-(float)p/(float)STEP);
             float J_perp = -0.5*log(tanh((Gamma/M)*beta))/beta;
-            begin = clock();
 
             for (int n = 0; n < N; n+=16) {
                 judge_flipping_even <<< 1,8,0 >>> (couplings_fp32, delta_H_fp32, spin_fp32, matrix_B_fp32, rand_val_fp32, J_perp, beta, n);
@@ -317,14 +318,14 @@ int main(int argc, char* argv[]) {
                 clear_matrix_B <<< 1,1,0 >>> (matrix_B_fp32);
             }
             beta += increase;
-            end = clock();
-            double duration = (double)(end-begin) / CLOCKS_PER_SEC;
-            curr += duration;
-            used_time[t] = curr;
-            // int E拉到最外面的時候，時間會變得很長
-            int E = calculate_E(spin, spin_fp32, couplings);
-            results[t] = E;
         } 
+        cudaDeviceSynchronize();
+        end = clock();
+        double duration = (double)(end-begin) / CLOCKS_PER_SEC;
+
+        used_time[t] = duration;
+        int E = calculate_E(spin, spin_fp32, couplings);
+        results[t] = E;
 
     }
     
