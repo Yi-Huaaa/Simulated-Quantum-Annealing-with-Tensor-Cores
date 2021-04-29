@@ -52,9 +52,9 @@ using namespace nvcuda;
 #define IDX2C(i,j,ld) (((j)*(ld))+(i))
 
 // SQA parameters
-#define N 16384
+#define N 32768
 #define M 128
-#define M_2 128
+#define M_2 16
 
 #define TIMES 10
 #define STEP 100
@@ -288,11 +288,10 @@ int main(int argc, char* argv[]) {
         construct_delta_H(cublasHandle,couplings_fp32, spin_fp32, delta_H_fp32);
             
         // Current cost time
-        double curr = 0.;
         clock_t begin, end;
 
+        begin = clock();
         for (int p = 0; p < STEP; p++) {
-            begin = clock();
             
             float Gamma = G0*(1.-(float)p/(float)STEP);
             float J_perp = -0.5*log(tanh((Gamma/M)*beta))/beta;
@@ -302,18 +301,19 @@ int main(int argc, char* argv[]) {
                 judge_flipping_com <<< M, M_2, 16*sizeof(float), stream2 >>> (couplings_fp32, delta_H_fp32, spin_fp32, matrix_B_fp32, log_rand_val_fp32, J_perp, beta, n);
                 update_delta_H(cublasHandle, couplings_fp32, matrix_B_fp32, delta_H_fp32, n);              
             }
+	    cudaDeviceSynchronize();
             beta += increase;
             
-            end = clock();
-            double duration = (double)(end-begin) / CLOCKS_PER_SEC;
-            curr += duration;
-            
-            used_time[t] = curr;
             //printf("curr: %10lf, energy: %10d\n", curr, E);
         } 
-        int E = calculate_E(spin, spin_fp32, couplings);
+	cudaDeviceSynchronize();
+        end = clock();
+        double duration = (double)(end-begin) / CLOCKS_PER_SEC;
+            
+        used_time[t] = duration;
+        
+	int E = calculate_E(spin, spin_fp32, couplings);
         results[t] = E;
-
     }
     
     printf("Final: \n");
