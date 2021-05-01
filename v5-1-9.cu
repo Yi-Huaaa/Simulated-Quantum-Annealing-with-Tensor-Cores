@@ -1,13 +1,3 @@
-/*
-diff：
-(1) float --> half
-
-(ms)/per step
-
-1024  2048  4096  8192 16384 32768
-0.3   0.65  1.47  2.89  7.30  20.6
-*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -20,10 +10,9 @@ diff：
 #include <stdbool.h>
 using namespace nvcuda;
 #define IDX2C(i,j,ld) (((j)*(ld))+(i))
-#define USE_TENSOR_CORE
 
 // SQA parameters
-#define N 8192
+#define N 4096
 #define M 16
 #define M_2 128
 
@@ -107,16 +96,11 @@ void update_delta_H(cublasHandle_t cublasHandle, half *couplings_fp16, half *mat
 }
 
 void construct_lograndval(float *log_rand_val, float *log_rand_val_fp32, cudaStream_t stream){
-    for(int i = 0; i < N/2; i++){
-        for(int j = 0; j < M; j++){
-            log_rand_val[IDX2C(i,j,N)] = (-log(((float)rand()/(float)(RAND_MAX)) * 1.0));
-        }
+    for(int i = 0; i < N; i++){
+        log_rand_val[IDX2C(i,0,N)] = (-log(((float)rand()/(float)(RAND_MAX)) * 1.0));
     }
-    for(int i = 0; i  < N/2; i++){
-        for(int j = 0; j < M; j++){
-            log_rand_val[IDX2C(i+N/2,j,N)] = log_rand_val[IDX2C(i,j,N)];
-        }
-    }
+    for (int m = M-1; m >= 1; m--)
+        memcpy(&log_rand_val[m*N], &log_rand_val[(m-1)*N], N*sizeof(float));
     cudaErrCheck (cudaMemcpyAsync(log_rand_val_fp32, log_rand_val, M*N*sizeof(float), cudaMemcpyHostToDevice, stream));
 }
 
@@ -139,26 +123,26 @@ __global__ void judge_flipping_com (half *couplings_fp16, float *delta_H_fp32, f
     
     extern __shared__ float deltas[];
     deltas[threadIdx.x] = delta_H_fp32[IDX2C(start_spin+threadIdx.x, m, N)];
-
+    
+    upper = (m-1) & (M-1);
+    lower = (m+1) & (M-1);
+        
     // even: 0~M_2/2-1; odd: M_2/2~M_2-1
+    #pragma unroll 8
     for (int n = 0; n < M_2; n++) {
         int nn = start_spin + ((first_rd_idx*(M_2/2) + n)&(M_2-1));
         idx = IDX2C(nn,m,N);
         mb_idx = IDX2C(nn&(M_2-1),m,M_2);            
-
         delta = deltas[nn&(M_2-1)];
-
-        upper = (m == 0 ? M-1 : m-1);
-        lower = (m == M-1 ? 0 : m+1);
-        delta = 2*M*spin_fp32[idx]*(delta - M*J_perp*(spin_fp32[IDX2C(nn,upper,N)] + spin_fp32[IDX2C(nn,lower,N)]));
-        delta = delta * beta;
+        delta = beta*spin_fp32[idx]*(delta - J_perp*(spin_fp32[IDX2C(nn,upper,N)] + spin_fp32[IDX2C(nn,lower,N)]));
+        
         matrix_B_fp16[mb_idx] = 0;
         if ( (log_rand_val_fp32[idx]) > delta ) {
             spin_fp32[idx] = -spin_fp32[idx];
             matrix_B_fp16[mb_idx] = 2*spin_fp32[idx];
             int ii = start_spin + threadIdx.x;
             deltas[threadIdx.x] += (float)couplings_fp16[IDX2C(ii,nn,N)]*(float)matrix_B_fp16[mb_idx]; 
-        }
+        } 
         __syncthreads();
     }
 }
@@ -242,7 +226,6 @@ int main(int argc, char* argv[]) {
     cudaErrCheck(cudaStreamCreateWithFlags(&stream2, cudaStreamNonBlocking));
     cublasErrCheck(cublasSetStream(cublasHandle, stream2));
     
-    
     for (int t = 0; t < TIMES; t++) {
         float beta = 1/(float)16; //bete = 1/Time
         
@@ -257,11 +240,12 @@ int main(int argc, char* argv[]) {
         for (int p = 0; p < STEP; p++) {
             
             float Gamma = G0*(1.-(float)p/(float)STEP);
-            float J_perp = -0.5*log(tanh((Gamma/M)*beta))/beta;
+            float J_perp = -M*0.5*log(tanh((Gamma/M)*beta))/beta;
             
             construct_lograndval(log_rand_val, log_rand_val_fp32, stream1);
             for (int n = 0; n < N; n += M_2) {
-                judge_flipping_com <<< M, M_2, 16*sizeof(float), stream2 >>> (couplings_fp16, delta_H_fp32, spin_fp32, matrix_B_fp16, log_rand_val_fp32, J_perp, beta, n);
+                judge_flipping_com <<< M, M_2, M_2*sizeof(float), stream2 >>> (couplings_fp16, delta_H_fp32, 
+                    spin_fp32, matrix_B_fp16, log_rand_val_fp32, J_perp, 2*M*beta, n);
                 update_delta_H(cublasHandle, couplings_fp16, matrix_B_fp16, delta_H_fp32, n);              
             }
             beta += increase;
