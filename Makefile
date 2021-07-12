@@ -2,10 +2,10 @@ SHELL:=/bin/bash
 CC=nvcc
 CUDAFLAGS=-arch=sm_80 -lcublas
 # target cuda code
-TARGET=v5-1-8
+TARGET=v5-1-9
 
 SPINS=1024 2048 4096 8192 16384 32768
-TROTTERS=8 16 32 64 128
+TROTTERS=4 8 16 32 64 128 256
 
 all: directories binary
 
@@ -36,6 +36,17 @@ speed:
 			Gset_file=$${GSETS[$${n}]}; \
 			echo "Testing, N=$$n, M=$$m, Gset=$$Gset_file"; \
 			./src/$(TARGET)-$$n-$$m Gset/$$Gset_file > ./speed_logs/$(TARGET)-$$n-$$m-log.txt; \
+		done \
+	done
+
+profile:
+	@sudo /usr/local/cuda-11.2/bin/nv-nsight-cu-cli --section ComputeWorkloadAnalysis --section LaunchStats --section MemoryWorkloadAnalysis --section MemoryWorkloadAnalysis_Chart --section MemoryWorkloadAnalysis_Tables -f -o output ./a.out Gset/G65
+
+speed_stats:
+	@for n in $(SPINS) ; do \
+		for m in $(TROTTERS); do \
+			echo "Testing, N=$$n, M=$$m"; \
+			cat ./speed_logs/$(TARGET)-$$n-$$m-log.txt | grep "Avg"; \
 		done \
 	done
 
