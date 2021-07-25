@@ -7,13 +7,15 @@
 #include "cuda_profiler_api.h"
 #include <cublas_v2.h>
 #include <mma.h>
+#include <omp.h>
 #include <stdbool.h>
+#include <sys/time.h>
 using namespace nvcuda;
 #define IDX2C(i,j,ld) (((j)*(ld))+(i))
 
 // SQA parameters
-#define N 4096
-#define M 16
+#define N 32768
+#define M 128
 #define M_2 128
 
 #define TIMES 1
@@ -21,7 +23,7 @@ using namespace nvcuda;
 
 // Must be multiples of 16
 #define MATRIX_M N
-#define MATRIX_K N
+#define MATRIX_K M_2
 #define MATRIX_N M
 
 // Error check macros
@@ -86,27 +88,29 @@ void update_delta_H(cublasHandle_t cublasHandle, half *couplings_fp16, half *mat
     int blk_num = which_spin / M_2;
     int coup_idx = blk_num * (N * M_2);
     cublasErrCheck(cublasGemmEx(cublasHandle, CUBLAS_OP_N, CUBLAS_OP_N, 
-                                MATRIX_M, MATRIX_N, M_2,
+                                MATRIX_M, MATRIX_N, MATRIX_K,
                                 &alpha, 
                                 couplings_fp16 + coup_idx, CUDA_R_16F, MATRIX_M,
-                                matrix_B_fp16, CUDA_R_16F, M_2, 
+                                matrix_B_fp16, CUDA_R_16F, MATRIX_K, 
                                 &beta, 
                                 delta_H_fp32, CUDA_R_32F, MATRIX_M,
                                 CUBLAS_COMPUTE_32F, CUBLAS_GEMM_DEFAULT_TENSOR_OP));
 }
 
 void construct_lograndval(float *log_rand_val, float *log_rand_val_fp32, cudaStream_t stream){
+	#pragma omp parallel for num_threads(16)
     for(int i = 0; i < N; i++){
         log_rand_val[IDX2C(i,0,N)] = (-log(((float)rand()/(float)(RAND_MAX)) * 1.0));
     }
+	#pragma omp parallel for num_threads(16)
     for (int m = M-1; m >= 1; m--)
         memcpy(&log_rand_val[m*N], &log_rand_val[(m-1)*N], N*sizeof(float));
     cudaErrCheck (cudaMemcpyAsync(log_rand_val_fp32, log_rand_val, M*N*sizeof(float), cudaMemcpyHostToDevice, stream));
 }
 
-int calculate_E (float *spin, float *spin_fp32, half *couplings){
-    cudaErrCheck(cudaMemcpy(spin, spin_fp32, N*sizeof(float), cudaMemcpyDeviceToHost));
-    int E = 0;
+float calculate_E (float *spin, float *spin_fp32, half *couplings){
+    cudaErrCheck(cudaMemcpy(spin, spin_fp32, M*N*sizeof(float), cudaMemcpyDeviceToHost));
+    float E = 0;
     for (int i = 0; i < N; i++){
         for (int j = i+1; j < N; j++){
             E += -spin[IDX2C(i,0,N)]*spin[IDX2C(j,0,N)]*(float)couplings[IDX2C(i,j,N)];
@@ -128,7 +132,7 @@ __global__ void judge_flipping_com (half *couplings_fp16, float *delta_H_fp32, f
     lower = (m+1) & (M-1);
         
     // even: 0~M_2/2-1; odd: M_2/2~M_2-1
-    #pragma unroll 8
+    #pragma unroll
     for (int n = 0; n < M_2; n++) {
         int nn = start_spin + ((first_rd_idx*(M_2/2) + n)&(M_2-1));
         idx = IDX2C(nn,m,N);
@@ -171,12 +175,13 @@ int main(int argc, char* argv[]) {
     // Read files
     FILE *instance = fopen(argv[1], "r");
     assert(instance != NULL);
-    int a, b, w, total_spins, total_couplings;
+    int a, b, total_spins, total_couplings;
+    float w;
     fscanf(instance, "%d%d", &total_spins, &total_couplings);
     while (total_couplings --) {
-        fscanf(instance, "%d%d%d", &a, &b, &w);
-        a--;
-        b--;
+        fscanf(instance, "%d%d%f", &a, &b, &w);
+        //a--;
+        //b--;
         couplings[IDX2C(a,b,N)] = w;
         couplings[IDX2C(b,a,N)] = w;
     }
@@ -218,7 +223,7 @@ int main(int argc, char* argv[]) {
     // Parameters init
     float results[TIMES] = {0.};
     float used_time[TIMES] = {0.};
-    float increase = (8 - 1/(float)16) / (float)STEP;
+    float increase = (16 - 1/(float)16) / (float)STEP;
     float G0 = 8.;
 
     cudaStream_t stream1, stream2;
@@ -226,17 +231,23 @@ int main(int argc, char* argv[]) {
     cudaErrCheck(cudaStreamCreateWithFlags(&stream2, cudaStreamNonBlocking));
     cublasErrCheck(cublasSetStream(cublasHandle, stream2));
     
+    float *best_spin;
+    best_spin = (float*)malloc(M*N*sizeof(float));
+    memset(best_spin, 0, M*N*sizeof(float)); 
+    float best_E = 1e9;
+
     for (int t = 0; t < TIMES; t++) {
         float beta = 1/(float)16; //bete = 1/Time
         
         //init spin
-        construct_spin(spin, spin_fp32,total_spins);
+        construct_spin(spin, spin_fp32, total_spins);
         construct_delta_H<<<N/64, 64>>>(couplings_fp16, spin_fp32, delta_H_fp32);
+        cudaDeviceSynchronize();
             
-        // Current cost time
-        clock_t begin, end;
+		// Current cost time
+        struct timeval begin, end;
+        gettimeofday(&begin, NULL);
 
-        begin = clock();
         for (int p = 0; p < STEP; p++) {
             
             float Gamma = G0*(1.-(float)p/(float)STEP);
@@ -251,19 +262,28 @@ int main(int argc, char* argv[]) {
             beta += increase;
             
             //printf("curr: %10lf, energy: %10d\n", curr, E);
+            /*float E = calculate_E(spin, spin_fp32, couplings);
+	    if (E < best_E) {
+	        best_E = E;
+                memcpy(best_spin, spin, M*N*sizeof(float));
+	    }*/
         } 
         cudaDeviceSynchronize();
-        cudaDeviceSynchronize();
-        end = clock();
-        double duration = (double)(end-begin) / CLOCKS_PER_SEC;
+		gettimeofday(&end, NULL);
+		double duration = ((end.tv_sec  - begin.tv_sec) * 1000000u +
+                         end.tv_usec - begin.tv_usec) / 1.e6;
             
         used_time[t] = duration;
         
-        int E = calculate_E(spin, spin_fp32, couplings);
-        results[t] = E;
+        float best_E = calculate_E(spin, spin_fp32, couplings);
+        memcpy(best_spin, spin, M*N*sizeof(float));
+        results[t] = best_E;
+
+//	for (int i = 0; i < total_spins; i++)
+//	    printf("%d ", (int)best_spin[IDX2C(i,0,N)]);
+//	printf("%f\n", best_E);
     }
     
-    printf("Final: \n");
     for (int t = 0; t < TIMES; t++){
         printf("TIME: %d,  used time (s): %10lf,  Energy: %10lf\n", t, used_time[t], results[t]);
     }
@@ -274,7 +294,7 @@ int main(int argc, char* argv[]) {
     }
     printf("\nAvg time  : %f\n", tot_result_time/TIMES);
     printf("Avg energy: %f\n", tot_energy/TIMES);
-    
+
     cublasDestroy(cublasHandle); 
     cudaStreamDestroy(stream1);
     cudaStreamDestroy(stream2);
