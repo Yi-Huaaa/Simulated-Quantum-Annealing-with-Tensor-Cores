@@ -14,8 +14,8 @@ using namespace nvcuda;
 #define IDX2C(i,j,ld) (((j)*(ld))+(i))
 
 // SQA parameters
-#define N 32768
-#define M 128
+#define N 65536ULL
+#define M 512
 #define M_2 128
 
 #define TIMES 1
@@ -85,16 +85,26 @@ __global__ void construct_delta_H(half *couplings_fp16, float *spin_fp32, float 
 
 void update_delta_H(cublasHandle_t cublasHandle, half *couplings_fp16, half *matrix_B_fp16, float *delta_H_fp32, int which_spin){
     float alpha = 1.0f, beta = 1.0f;    
-    int blk_num = which_spin / M_2;
-    int coup_idx = blk_num * (N * M_2);
-    cublasErrCheck(cublasGemmEx(cublasHandle, CUBLAS_OP_N, CUBLAS_OP_N, 
-                                MATRIX_M, MATRIX_N, MATRIX_K,
-                                &alpha, 
-                                couplings_fp16 + coup_idx, CUDA_R_16F, MATRIX_M,
-                                matrix_B_fp16, CUDA_R_16F, MATRIX_K, 
-                                &beta, 
-                                delta_H_fp32, CUDA_R_32F, MATRIX_M,
-                                CUBLAS_COMPUTE_32F, CUBLAS_GEMM_DEFAULT_TENSOR_OP));
+    unsigned long long int blk_num = which_spin / M_2;
+    int loop_iter = (N/32768 == 0) ? 1 : N/32768; 
+    int matrix_m = (N > 32768) ? 32768 : N;
+
+    for (int i = 0; i < loop_iter; i++) {
+	    unsigned long long int coup_idx = blk_num * (N * M_2) + i*32768*M_2;
+        cublasErrCheck(cublasGemmEx(cublasHandle, CUBLAS_OP_N, CUBLAS_OP_N,
+                                    matrix_m, MATRIX_N, MATRIX_K,
+                                    &alpha,
+                                    couplings_fp16 + coup_idx, CUDA_R_16F, matrix_m,
+                                    matrix_B_fp16, CUDA_R_16F, MATRIX_K,
+                                    &beta,
+                                    delta_H_fp32, CUDA_R_32F, matrix_m,
+#if (__CUDA_ARCH__  >= 800)
+                                    CUBLAS_COMPUTE_32F, 
+#else
+                                    CUDA_R_32F,
+#endif	
+                                    CUBLAS_GEMM_DEFAULT_TENSOR_OP));
+	}
 }
 
 void construct_lograndval(float *log_rand_val, float *log_rand_val_fp32, cudaStream_t stream){
