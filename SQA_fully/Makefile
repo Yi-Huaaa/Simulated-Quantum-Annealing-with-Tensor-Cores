@@ -1,11 +1,11 @@
 SHELL:=/bin/bash
 CC=nvcc
-CUDAFLAGS=-arch=sm_70 -lcublas
+CUDAFLAGS=-arch=sm_80 -lcublas
 # target cuda code
 TARGET=v5-1-9
 
-SPINS=1024 2048 4096 8192 16384 32768
-TROTTERS=4 8 16 32 64 128 256
+SPINS=1024 2048 4096 8192 16384 32768 65536ULL
+TROTTERS=4 8 16 32 64 128 256 512
 
 all: directories binary
 
@@ -30,7 +30,7 @@ speed:
 	@# make sure Gset/ is here
 	@if ! [ -d "./speed_logs" ]; then mkdir speed_logs/; fi
 	
-	@declare -A GSETS=( ["1024"]=G1 ["2048"]=G22 ["4096"]=G48 ["8192"]=G65 ["16384"]=G77 ["32768"]=G81 )\
+	@declare -A GSETS=( ["1024"]=G1 ["2048"]=G22 ["4096"]=G48 ["8192"]=G65 ["16384"]=G77 ["32768"]=G81 ["65536ULL"]=G81 )\
 	; for n in $(SPINS) ; do \
 		for m in $(TROTTERS); do \
 			Gset_file=$${GSETS[$${n}]}; \
