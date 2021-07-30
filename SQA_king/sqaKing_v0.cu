@@ -1,3 +1,4 @@
+//看起來好像是對的 嗎ＱＷＱ
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -13,8 +14,8 @@ using namespace nvcuda;
 #define EDGE 32
 #define N (EDGE*EDGE) // N = EDGE * EDGE
 #define M 16 // 先從16開始
-#define TIMES 10//10
-#define STEP 100 //100
+#define TIMES 1//10
+#define STEP 200 //100
 
 #define NQuarter N/4
 #define MHalf M/2
@@ -151,7 +152,7 @@ int spinMatrixIdx (int n, int m){ //對了
     
     int blkNum = countBlkNum(n);
     int color = judgeColor(n);
-    int newCol = ((M > 16) ? (MHalf*totalBlkNum) : (16*totalBlkNum))*(color+(m/2)*4);//累積大的
+    int newCol = ((M > 16) ? (MHalf*totalBlkNum) : (16*totalBlkNum))*(color+(m%2)*4);//累積大的
     newCol += 16*blkNum;//在找到block，一個block有16條
     newCol += m/2;//在找到trotter
     int newRow = new_a;
@@ -161,6 +162,21 @@ int spinMatrixIdx (int n, int m){ //對了
 
 }
 
+void check_spinMatrixIdx(){
+    int newIdx = 0;
+    printf("Continuous forth on the trotter 0:\n");
+    for(int i = 0; i < 4; i++){
+        printf("original, n = %d, m = %d\n", i+(i/2)*30, 0);
+        newIdx = spinMatrixIdx(i+(i/2)*30, 0);
+        printf("newIdx = %d\n---\n", newIdx);
+    }
+    printf("@@@@\nContinuous forth on the trotter 1:\n");
+    for(int i = 0; i < 2*M; i++){
+        printf("original, n = %d, m = %d\n", i+(i/2)*30, 1);
+        newIdx = spinMatrixIdx(i+(i/2)*30, 1);
+        printf("newIdx = %d\n---\n", newIdx);
+    }
+}
 void check_couplings(float *couplings, float *couplings_fp32){
     // cudaErrCheck (cudaMemcpy(couplings, couplings_fp32, N*N*sizeof(float), cudaMemcpyDeviceToHost));
     printf("\ncheck_couplings:\n");
@@ -299,7 +315,6 @@ int bMatrixIdx (int oriIdx) {
 }
 
 void construct_delta_H (cublasHandle_t cublasHandle, float *matrixA, float *matrixA_fp32, float *spin, float *spin_fp32, float *delta_H, float *delta_H_fp32) {
-    // 有bug
     float alpha = 1.0f, beta = 1.0f;    
     int matrixAIdx = 0; // OKOK
     int matrixBIdx = 0;
@@ -311,11 +326,12 @@ void construct_delta_H (cublasHandle_t cublasHandle, float *matrixA, float *matr
         for(int outBlkNum = 0; outBlkNum < totalBlkNum; outBlkNum++){
             color = outBlkNum/4;
             delta_HIdx = spinMatrixIdx((EDGE*(color/2)+color%2), evenOdd); // 要換顏色，不用換顏色
-            matrixBIdx = bMatrixIdx(delta_HIdx); 
+            // printf("delta_HIdx = %d\n", delta_HIdx);
+            matrixBIdx = delta_HIdx; 
             for(int innerBlkNum = 0; innerBlkNum < totalBlkNum; innerBlkNum++){
                 matrixAIdx += 256;
                 matrixBIdx += 256;
-                delta_HIdx += MHalf*16;
+                delta_HIdx += 256;
                 cublasErrCheck(cublasGemmEx(cublasHandle, CUBLAS_OP_N, CUBLAS_OP_N, 
                                         16, 16, 16,
                                         &alpha, 
@@ -342,46 +358,55 @@ void update_delta_H (cublasHandle_t cublasHandle, float *couplings, float *coupl
                             CUBLAS_COMPUTE_32F_PEDANTIC, CUBLAS_GEMM_DEFAULT_TENSOR_OP));
 }
 
-void flip (int timeIdx, float *couplings, float *couplings_fp32, float *spin, float *spin_fp32, float *delta_H, float *delta_H_fp32, float J_perp, float beta) {
+void flip (int color, float *couplings, float *couplings_fp32, float *spin, float *spin_fp32, float *delta_H, float *delta_H_fp32, float J_perp, float beta) {
     //even
-    float delta = 0., zero = 0., twice_spin = 0.;
-    int fIdx = timeIdx*totalNumFlipOneTime;
-    for(int blk = 0; blk < totalBlkNum; blk ++){
+    float delta = 0., new_spin = 0.;
+    // 起始flip spin：(1) 偶數：第零層、(2) 奇數：第一層；
+    // 不同顏色起始spin n：(1) 綠色：0、(2) 紅色：1、(3) 藍色：32、(4)黑色：33。
+    int startN = (EDGE*(color/2)+color%2);
+    int fIdx = spinMatrixIdx(startN, 0);
+    int blankBlk = ((M > 16) ? (0) : (16*(16 - totalBlkNum)));
+    int bigBlk = ((M > 16) ? (totalNumFlipOneTime) : (16*16*totalBlkNum));
+    for(int blkNum = 0; blkNum < totalBlkNum; blkNum ++){
+        fIdx += blankBlk;//update
         for(int m = 0; m < M; m+=2){
-            for(int n = 0; n < 16; n++){
+            for(int i = 0; i < 16; i++){
                 gpuErrchk(cudaMemcpy(&delta, delta_H_fp32+fIdx, 1*sizeof(float), cudaMemcpyDeviceToHost));
-                
-                int upperIdx = ((m == 0) ? (fIdx + 4*totalNumFlipOneTime + (MHalf-1)*16) : (fIdx + 4*totalNumFlipOneTime-16));
-                int lowerIdx = fIdx + 4*totalNumFlipOneTime;
+
+                int upperIdx = ((m == 0) ? (fIdx + 4*bigBlk + 16*(MHalf-1)) : (fIdx + 4*bigBlk - 16));
+                int lowerIdx = fIdx + 4*bigBlk;
 
                 delta = 2*M*spin[fIdx]*(delta - M*J_perp*(spin[upperIdx] + spin[lowerIdx]));
-                // printf("fIdx = %d, bMatrixIdx(%d) = %d\n", fIdx, fIdx, bMatrixIdx(fIdx));
 
                 if ( (-log(rand() / (float) RAND_MAX) / beta) > delta ) {
                     spin[fIdx] = -spin[fIdx];
-                    twice_spin = spin[fIdx]; 
-                    gpuErrchk(cudaMemcpy(spin_fp32 + bMatrixIdx(fIdx), &twice_spin, 1*sizeof(float), cudaMemcpyHostToDevice));                
+                    new_spin = spin[fIdx]; 
+                    gpuErrchk(cudaMemcpy(spin_fp32 + bMatrixIdx(fIdx), &new_spin, 1*sizeof(float), cudaMemcpyHostToDevice));                
                 }
                 fIdx ++;
             }
         }
     }
-    //odd
-    delta = 0., zero = 0., twice_spin = 0.;
-    fIdx = (timeIdx+4)*totalNumFlipOneTime;
-    fIdx = ((timeIdx == 3) ? (4*totalNumFlipOneTime) : ((timeIdx+4)*totalNumFlipOneTime));
-    for(int blk = 0; blk < totalBlkNum; blk ++){
-        for(int m = 1; m < M; m += 2){
-            for(int n = 0; n < 16; n++){
+
+    // odd
+    color = (color + 1) % 4;
+    startN = (EDGE*(color/2)+color%2);    
+    fIdx = spinMatrixIdx(startN, 1);
+    for(int blkNum = 0; blkNum < totalBlkNum; blkNum ++){
+        fIdx += blankBlk;//update
+        for(int m = 1; m < M; m+=2){
+            for(int i = 0; i < 16; i++){
                 gpuErrchk(cudaMemcpy(&delta, delta_H_fp32+fIdx, 1*sizeof(float), cudaMemcpyDeviceToHost));
 
-                int upperIdx = fIdx - 4*totalNumFlipOneTime;
-                int lowerIdx = ((m == M-1) ? (fIdx - 4*totalNumFlipOneTime - (MHalf-1)*16) : (fIdx - 4*totalNumFlipOneTime + 16));
-     
+                int upperIdx = fIdx - 4*bigBlk;
+                int lowerIdx = ((m == (M-1)) ? (fIdx - 4*bigBlk + 16*(MHalf-1)) : (fIdx - 4*bigBlk + 16));
+
                 delta = 2*M*spin[fIdx]*(delta - M*J_perp*(spin[upperIdx] + spin[lowerIdx]));
+
                 if ( (-log(rand() / (float) RAND_MAX) / beta) > delta ) {
                     spin[fIdx] = -spin[fIdx];
-                    gpuErrchk(cudaMemcpy(spin_fp32 + bMatrixIdx(fIdx), &twice_spin, 1*sizeof(float), cudaMemcpyHostToDevice));                
+                    new_spin = spin[fIdx]; 
+                    gpuErrchk(cudaMemcpy(spin_fp32 + bMatrixIdx(fIdx), &new_spin, 1*sizeof(float), cudaMemcpyHostToDevice));                
                 }
                 fIdx ++;
             }
@@ -394,7 +419,6 @@ float calculate_E (float *couplings, float *couplings_fp32, float *spin, float *
     int E = 0;
     for (int i = 0; i < N; i++){
         for (int j = i+1; j < N; j++){
-            // E += -spin[IDX2C(i,0,N)]*spin[IDX2C(j,0,N)]*couplings[IDX2C(i,j,N)];
             E += -spin[spinMatrixIdx(i, 0)]*spin[spinMatrixIdx(j, 0)]*couplings[couplingMatrixIdx(i, j)];
         }
     }
@@ -464,12 +488,12 @@ int main (int argc, char *argv[]) {
     cudaErrCheck(cudaMemcpy(spin_fp32, spin, trottersMatrixB*N*sizeof(float), cudaMemcpyHostToDevice));
 
     float *delta_H;
-    delta_H = (float*)malloc(M*N*sizeof(float));
-    memset(delta_H, 0, M*N*sizeof(float));
+    delta_H = (float*)malloc(trottersMatrixB*N*sizeof(float));
+    memset(delta_H, 0, trottersMatrixB*N*sizeof(float));
     
     float *delta_H_fp32;
-    cudaErrCheck(cudaMalloc((void**)&delta_H_fp32, M*N*sizeof(float)));
-    cudaErrCheck(cudaMemcpy(delta_H_fp32, delta_H, M*N*sizeof(float), cudaMemcpyHostToDevice));
+    cudaErrCheck(cudaMalloc((void**)&delta_H_fp32, trottersMatrixB*N*sizeof(float)));
+    cudaErrCheck(cudaMemcpy(delta_H_fp32, delta_H, trottersMatrixB*N*sizeof(float), cudaMemcpyHostToDevice));
 
     // TC, using tensor core
     cublasErrCheck(cublasSetMathMode(cublasHandle, CUBLAS_TENSOR_OP_MATH)); 
@@ -479,40 +503,8 @@ int main (int argc, char *argv[]) {
     cudaErrCheck(cudaMemcpy(spin_fp32, spin, trottersMatrixB*N*sizeof(float), cudaMemcpyHostToDevice));
     // check_spin(spin, spin_fp32); 
 
-    
-    /*
-    goal: test spinMatrix, OKOK!
-    int original = 0, spinIdx;
-    printf("print trotters' head location:\n");
-    for(int m = 0; m < 4; m++){
-        original = 0 + m * N;
-        spinIdx = spinMatrixIdx(0, m);
-        printf("spin = 0, trotter = %d, original = %d, new = %d\n", m, original, spinIdx);
-        printf("---\n");
-
-        original = 1 + m * N;
-        spinIdx = spinMatrixIdx(1, m);
-        printf("spin = 1, trotter = %d, original = %d, new = %d\n", m, original, spinIdx);
-        printf("---\n");
-
-        original = 32 + m * N;
-        spinIdx = spinMatrixIdx(32, m);
-        printf("spin = 32, trotter = %d, original = %d, new = %d\n", m, original, spinIdx);
-        printf("---\n");
-
-        original = 33 + m * N;
-        spinIdx = spinMatrixIdx(33, m);
-        printf("spin = 33, trotter = %d, original = %d, new = %d\n", m, original, spinIdx);
-        printf("---\n");  
-        printf("@@@@\n");  
-    }
-    printf("check accum blocknum\n");
-    original = 31 + 3 * N;//應該是紅色
-    spinIdx = spinMatrixIdx(31, 3);
-    printf("should be Red, spin = 31, trotter = %d, original = %d, new = %d\n", 0, original, spinIdx);
-    printf("---\n");  
-    */
-
+    // printf("test\n");
+    // check_spinMatrixIdx();
 
     // Parameters init
     float results[TIMES] = {0.};
@@ -533,8 +525,8 @@ int main (int argc, char *argv[]) {
         // Construct the initial energy
         construct_delta_H(cublasHandle, matrixA, matrixA_fp32, spin, spin_fp32, delta_H, delta_H_fp32);
         // check delta_H
-        check_delta_H(delta_H, delta_H_fp32); 
-   
+        // check_delta_H(delta_H, delta_H_fp32); 
+
         float initE = calculate_E(couplings, couplings_fp32, spin, spin_fp32);
         printf("time = %d, initE = %f\n", t, initE);
 
@@ -546,7 +538,8 @@ int main (int argc, char *argv[]) {
             float Gamma = G0*(1.-(float)p/(float)STEP);
             float J_perp = -0.5*log(tanh((Gamma/M)*beta))/beta;
             for(int f = 0; f < 4; f++){ //f: flip
-                flip(f, couplings, couplings_fp32, spin, spin_fp32, delta_H, delta_H_fp32, J_perp, beta);
+                flip(f, couplings, couplings_fp32, spin, spin_fp32, delta_H, delta_H_fp32, J_perp, beta); // m = 0, even trotters
+                flip(f, couplings, couplings_fp32, spin, spin_fp32, delta_H, delta_H_fp32, J_perp, beta); // m = 1,  odd trotters
                 construct_delta_H(cublasHandle, matrixA, matrixA_fp32, spin, spin_fp32, delta_H, delta_H_fp32);
             }
             float tmpE = calculate_E(couplings, couplings_fp32, spin, spin_fp32);
