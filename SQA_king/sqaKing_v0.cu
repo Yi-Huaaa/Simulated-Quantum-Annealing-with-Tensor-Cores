@@ -12,9 +12,9 @@
 #include <stdbool.h>
 using namespace nvcuda;
 #define IDX2C(i,j,ld) (((j)*(ld))+(i)) 
-#define EDGE 32
+#define EDGE 64
 #define N (EDGE*EDGE) // N = EDGE * EDGE
-#define M 16 // 先從16開始
+#define M  64// 4, 8, 16, 32 OKOK!
 #define TIMES 1//10
 #define STEP 100 //100
 
@@ -77,12 +77,12 @@ int judgeColor (int a){
     return ((aRow%2)+2*(aCol%2));
 }
 
-void check_couplings(float *couplings, float *couplings_fp32){
+void check_couplings(float *couplings){
     printf("\ncheck_couplings:\n");
 
     // int cnt = 0;
     int couplingsRowIdx = 0, couplingsColIdx = 0;
-    for(int outBlkNum = 0; outBlkNum < totalBlkNum; outBlkNum ++){
+    for(int outBlkNum = 0; outBlkNum < 16; outBlkNum ++){
         printf("out block = %d\n", outBlkNum);
 
         int rowAdd = outBlkNum%((int)(sqrt(totalBlkNum)));  
@@ -221,7 +221,7 @@ void check_matrixA (float *matrixA){
     int cnt = 0;
     printf("QQ\n");
     int matrixAInitIdx = 0;
-    for(int outBlkNum = 0; outBlkNum < totalBlkNum; outBlkNum ++){
+    for(int outBlkNum = 0; outBlkNum < 16; outBlkNum ++){
         printf("out block = %d\n", outBlkNum);
         for(int innerBlkNum = 0; innerBlkNum < totalBlkNum; innerBlkNum ++){
             printf("inner block = %d\n", innerBlkNum);
@@ -241,12 +241,12 @@ void check_matrixA (float *matrixA){
 
 void construct_matrixA (float *couplings, float *matrixA){
     int matrixAInitIdx = 0, couplingsRowIdx = 0, couplingsColIdx = 0;
-    for(int outBlkNum = 0; outBlkNum < totalBlkNum; outBlkNum ++){
-
+    for(int outBlkNum = 0; outBlkNum < 16; outBlkNum ++){
         int rowAdd = outBlkNum%((int)(sqrt(totalBlkNum)));  
         int colAdd = outBlkNum/((int)(sqrt(totalBlkNum)));
         couplingsRowIdx = rowAdd*totalBlkNum*16;
         couplingsColIdx = colAdd*totalBlkNum*16;
+        // printf("outBlkNum = %d, couplingsRowIdx = %d, couplingsColIdx = %d\n", outBlkNum, couplingsRowIdx, couplingsColIdx);
         
         for(int innerBlkNum = 0; innerBlkNum < totalBlkNum; innerBlkNum ++){
             for(int row = 0; row < 16; row++){
@@ -318,7 +318,7 @@ void construct_delta_H (cublasHandle_t cublasHandle, float *matrixA, float *matr
     int spinFollowColor = 0, deltaFollow;
     for(int evenOdd = 0; evenOdd < 2; evenOdd ++){
         matrixAIdx = 0; 
-        for(int outBlkNum = 0; outBlkNum < totalBlkNum; outBlkNum++){
+        for(int outBlkNum = 0; outBlkNum < 16; outBlkNum++){
             spinFollowColor = outBlkNum/4;
             deltaFollow = (outBlkNum%4);
             delta_HIdx = spinMatrixIdx((EDGE*(deltaFollow/2)+deltaFollow%2), evenOdd);
@@ -372,7 +372,7 @@ void update_delta_H (cublasHandle_t cublasHandle, float *matrixA, float *matrixA
     int spinFollowColor = 0, deltaFollow;
     for(int evenOdd = 0; evenOdd < 2; evenOdd ++){
         matrixAIdx = 0; 
-        for(int outBlkNum = 0; outBlkNum < totalBlkNum; outBlkNum++){
+        for(int outBlkNum = 0; outBlkNum < 16; outBlkNum++){
             spinFollowColor = outBlkNum/4;
             deltaFollow = (outBlkNum%4);
             delta_HIdx = spinMatrixIdx((EDGE*(deltaFollow/2)+deltaFollow%2), evenOdd);
@@ -396,7 +396,7 @@ void update_delta_H (cublasHandle_t cublasHandle, float *matrixA, float *matrixA
     }
 }
 
-void flip (int color, float *couplings, float *couplings_fp32, float *spin, float *spin_fp32, float *delta_H, float *delta_H_fp32, float J_perp, float beta) {
+void flip (int color, float *couplings, float *spin, float *spin_fp32, float *delta_H, float *delta_H_fp32, float J_perp, float beta) {
     // even
     float delta = 0., new_spin = 0.;
     // 起始flip spin：(1) 偶數：第零層、(2) 奇數：第一層；
@@ -469,7 +469,7 @@ void flip (int color, float *couplings, float *couplings_fp32, float *spin, floa
     }
 }
 
-float calculate_E (float *couplings, float *couplings_fp32, float *spin, float *spin_fp32){
+float calculate_E (float *couplings, float *spin, float *spin_fp32){
     // cudaErrCheck(cudaMemcpy(spin, spin_fp32, M*N*sizeof(float), cudaMemcpyDeviceToHost));
     int E = 0;
     for (int i = 0; i < N; i++){
@@ -479,17 +479,6 @@ float calculate_E (float *couplings, float *couplings_fp32, float *spin, float *
             E += -spin[spinMatrixIdx(i, 0)]*spin[spinMatrixIdx(j, 0)]*couplings[couplingMatrixIdx(i, j)];
         }
     }
-    // printf("test\n:");
-    // int E = 0;
-    // for(int l = 0; l < M; l++){
-    //     for (int i = 0; i < N; i++){
-    //         for (int j = i+1; j < N; j++){
-    //             E += -spin[spinMatrixIdx(i, l)]*spin[spinMatrixIdx(j, l)]*couplings[couplingMatrixIdx(i, j)];
-    //             if(spin[spinMatrixIdx(i, l)] == 0)
-    //                 printf("spin[spinMatrixIdx(%d, %d)] = %d, spin[spinMatrixIdx(%d, %d)] = %d\n", i, l, (int)spin[spinMatrixIdx(i, 0)], j, l, (int)spin[spinMatrixIdx(j, 0)]);
-    //         }
-    //     }
-    // }
     return E;
 }
 
@@ -507,12 +496,6 @@ int main (int argc, char *argv[]) {
     couplings = (float*)malloc(N*N*sizeof(float));
     memset(couplings, 0, N*N*sizeof(float));
 
-    float *couplings_fp32;
-    cudaErrCheck(cudaMalloc((void**)&couplings_fp32, N*N*sizeof(float)));
-
-    // int couplingResNum = 2*((2*(EDGE-1)*(2*(EDGE-1)+1)) - (2*105)*(N/64));
-    // printf("couplingResNum = %d\n", couplingResNum);
-
     // Read files
     FILE *instance = fopen(argv[1], "r");
     assert(instance != NULL);
@@ -526,18 +509,9 @@ int main (int argc, char *argv[]) {
     fclose(instance);
 
 
-    // copy couplings to target device
-    //這行感覺之後可以槓掉
-    cudaErrCheck ( cudaMemcpy(couplings_fp32, couplings, N*N*sizeof(float), cudaMemcpyHostToDevice));
     // check couplings, OKOK!
     // printf("couplings[%d] = %d\n", IDX2C(256, 256, N), (int)couplings[IDX2C(256, 256, N)]);
-    // check_couplings(couplings, couplings_fp32);
-    
-    // int new_a = 0;
-    // for(int i = 0; i < N; i++){
-    //     new_a = couplingIdx(i);
-    //     printf("original Idx = %d, new Idx = %d\n", i,new_a);
-    // }   
+    // check_couplings(couplings);
 
     float *matrixA;  
     matrixA = (float*)malloc(64*N*sizeof(float));
@@ -552,6 +526,7 @@ int main (int argc, char *argv[]) {
     cudaErrCheck(cudaMemcpy(matrixA_fp32, matrixA, 64*N*sizeof(float), cudaMemcpyHostToDevice));
 
     int trottersMatrixB = ((M > 16) ? (M): (32));
+
     // Initialize spin
     float *spin;
     spin = (float*)malloc(trottersMatrixB*N*sizeof(float));
@@ -593,7 +568,7 @@ int main (int argc, char *argv[]) {
         // check delta_H
         // check_delta_H(delta_H, delta_H_fp32, trottersMatrixB); 
 
-        float initE = calculate_E(couplings, couplings_fp32, spin, spin_fp32);
+        float initE = calculate_E(couplings, spin, spin_fp32);
         printf("time = %d, initE = %f\n", t, initE);
 
         // Current cost time
@@ -604,11 +579,11 @@ int main (int argc, char *argv[]) {
             float Gamma = G0*(1.-(float)p/(float)STEP);
             float J_perp = -0.5*log(tanh((Gamma/M)*beta))/beta;
             for(int f = 0; f < 4; f++){ // f: flip
-                flip(f, couplings, couplings_fp32, spin, spin_fp32, delta_H, delta_H_fp32, J_perp, beta); 
+                flip(f, couplings, spin, spin_fp32, delta_H, delta_H_fp32, J_perp, beta); 
                 update_delta_H(cublasHandle, matrixA, matrixA_fp32, spin, spin_fp32, delta_H, delta_H_fp32, trottersMatrixB);
             }
-            float tmpE = calculate_E(couplings, couplings_fp32, spin, spin_fp32);
-            printf("step: %d, Energy: %10lf\n", p, tmpE);
+            // float tmpE = calculate_E(couplings, spin, spin_fp32);
+            // printf("step: %d, Energy: %10lf\n", p, tmpE);
          beta += increase;
         } 
         cudaDeviceSynchronize();
@@ -619,7 +594,7 @@ int main (int argc, char *argv[]) {
 
         used_time[t] = duration;
 
-        float E = calculate_E(couplings, couplings_fp32, spin, spin_fp32);
+        float E = calculate_E(couplings, spin, spin_fp32);
         results[t] = E;
 
     }   
@@ -642,7 +617,6 @@ int main (int argc, char *argv[]) {
     free(spin);
     free(delta_H);
     free(matrixA);
-    cudaFree(couplings_fp32);
     cudaFree(spin_fp32);
     cudaFree(delta_H_fp32);
     cudaFree(matrixA_fp32);
