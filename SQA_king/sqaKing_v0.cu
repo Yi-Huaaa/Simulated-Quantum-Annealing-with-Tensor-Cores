@@ -12,9 +12,9 @@
 #include <stdbool.h>
 using namespace nvcuda;
 #define IDX2C(i,j,ld) (((j)*(ld))+(i)) 
-#define EDGE 64
+#define EDGE 32
 #define N (EDGE*EDGE) // N = EDGE * EDGE
-#define M  64// 4, 8, 16, 32 OKOK!
+#define M 8// 4, 8, 16, 32, 64 OKOK!
 #define TIMES 1//10
 #define STEP 100 //100
 
@@ -190,9 +190,11 @@ int spinMatrixIdx (int n, int m){ //對了
     
     int blkNum = countBlkNum(n);
     int color = judgeColor(n);
-    int newCol = ((M > 16) ? (MHalf*totalBlkNum) : (16*totalBlkNum))*(color+(m%2)*4);//累積大的
-    newCol += 16*blkNum;//在找到block，一個block有16條
-    newCol += m/2;//在找到trotter
+    int blockSize = ((M > 16) ? (MHalf) : (16));
+    int newCol = ((M > 16) ? ((MHalf*totalBlkNum)*(color+(m%2)*4)) : ((16*totalBlkNum)*(color+(m%2)*4)));//累積大的
+    // newCol += 16*blkNum;    // 改改
+    newCol += blockSize*blkNum;//在找到block，一個block有16條，或者是M/2
+    newCol += m/2;//在找到trotter 
     int newRow = new_a;
     spinIdx = IDX2C( newRow, newCol, 16);
 
@@ -284,14 +286,14 @@ void construct_spin(float *spin, float *spin_fp32, int total_spins){
                 }
             }
         }
-
     }
 }
 
 void check_spin (float *spin, float *spin_fp32, int trottersMatrixB){
     printf("\ncheck_spin:\n");
+
     for(int i = 0; i < 16; i++){
-        for(int j = 0; j < (32*N)/16; j++){
+        for(int j = 0; j < ((trottersMatrixB*N)/16); j++){
             printf("%d ", (int)spin[IDX2C(i,j,16)]);
         }
         printf("\n");
@@ -315,7 +317,9 @@ void construct_delta_H (cublasHandle_t cublasHandle, float *matrixA, float *matr
     int matrixAIdx = 0;
     int spinIdx = 0;
     int delta_HIdx = 0;
-    int spinFollowColor = 0, deltaFollow;
+    int spinFollowColor = 0, deltaFollow = 0;
+    int MATRIX_N = ((M > 16) ? (MHalf) : (16)); // 改改
+
     for(int evenOdd = 0; evenOdd < 2; evenOdd ++){
         matrixAIdx = 0; 
         for(int outBlkNum = 0; outBlkNum < 16; outBlkNum++){
@@ -336,14 +340,15 @@ void construct_delta_H (cublasHandle_t cublasHandle, float *matrixA, float *matr
                 // }
                 // printf("spinMatrix, spinIdx = %d:\n", spinIdx);
                 // for(int row = 0; row < 16; row++){
-                //     for(int col = 0; col < 16; col++){
+                //     for(int col = 0; col < 16; col++){這裡的col應該要看(M>16)
                 //         // assert(spin[IDX2C(row, col, 16) + spinIdx] != 0);
                 //         printf("%d ", (int)spin[IDX2C(row, col, 16) + spinIdx]);
                 //     }
                 //     printf("\n");
                 // }
+                // 改改：16 -> MATRIX_N
                 cublasErrCheck(cublasGemmEx(cublasHandle, CUBLAS_OP_N, CUBLAS_OP_N, 
-                                        16, 16, 16,
+                                        16, MATRIX_N, 16,
                                         &alpha, 
                                         matrixA_fp32 + matrixAIdx, CUDA_R_32F, 16,
                                         spin_fp32 + spinIdx, CUDA_R_32F,  16, 
@@ -354,8 +359,10 @@ void construct_delta_H (cublasHandle_t cublasHandle, float *matrixA, float *matr
 
                 // cudaErrCheck(cudaMemcpy(delta_H, delta_H_fp32, trottersMatrixB*N*sizeof(float), cudaMemcpyDeviceToHost));
                 matrixAIdx += 256;
-                spinIdx += 256;
-                delta_HIdx += 256;
+                // spinIdx += 256; // 改改
+                spinIdx += 16*MATRIX_N;
+                // delta_HIdx += 256; // 改改
+                delta_HIdx += 16*MATRIX_N;
             }
         }
     }
@@ -369,7 +376,9 @@ void update_delta_H (cublasHandle_t cublasHandle, float *matrixA, float *matrixA
     int matrixAIdx = 0;
     int spinIdx = 0;
     int delta_HIdx = 0;
-    int spinFollowColor = 0, deltaFollow;
+    int spinFollowColor = 0, deltaFollow = 0;
+    int MATRIX_N = ((M > 16) ? (MHalf) : (16)); // 改改
+
     for(int evenOdd = 0; evenOdd < 2; evenOdd ++){
         matrixAIdx = 0; 
         for(int outBlkNum = 0; outBlkNum < 16; outBlkNum++){
@@ -381,7 +390,7 @@ void update_delta_H (cublasHandle_t cublasHandle, float *matrixA, float *matrixA
             
             for(int innerBlkNum = 0; innerBlkNum < totalBlkNum; innerBlkNum++){
                 cublasErrCheck(cublasGemmEx(cublasHandle, CUBLAS_OP_N, CUBLAS_OP_N, 
-                                        16, 16, 16,
+                                        16, MATRIX_N, 16,
                                         &alpha, 
                                         matrixA_fp32 + matrixAIdx, CUDA_R_32F, 16,
                                         spin_fp32 + spinIdx, CUDA_R_32F,  16, 
@@ -389,8 +398,10 @@ void update_delta_H (cublasHandle_t cublasHandle, float *matrixA, float *matrixA
                                         delta_H_fp32 + delta_HIdx, CUDA_R_32F, 16,
                                         CUBLAS_COMPUTE_32F_PEDANTIC, CUBLAS_GEMM_DEFAULT_TENSOR_OP));                
                 matrixAIdx += 256;
-                spinIdx += 256;
-                delta_HIdx += 256;
+                // spinIdx += 256; // 改改
+                spinIdx += 16*MATRIX_N;
+                // delta_HIdx += 256; // 改改
+                delta_HIdx += 16*MATRIX_N;
             }
         }
     }
@@ -526,6 +537,7 @@ int main (int argc, char *argv[]) {
     cudaErrCheck(cudaMemcpy(matrixA_fp32, matrixA, 64*N*sizeof(float), cudaMemcpyHostToDevice));
 
     int trottersMatrixB = ((M > 16) ? (M): (32));
+    printf("trottersMatrixB = %d\n", trottersMatrixB);
 
     // Initialize spin
     float *spin;
@@ -561,7 +573,7 @@ int main (int argc, char *argv[]) {
         construct_spin(spin, spin_fp32, total_spins);
         // check spin, OKOK!
         // check_spin(spin, spin_fp32, trottersMatrixB); 
-        cudaErrCheck (cudaMemcpy(spin_fp32, spin, M*N*sizeof(float), cudaMemcpyHostToDevice));
+        cudaErrCheck (cudaMemcpy(spin_fp32, spin, trottersMatrixB*N*sizeof(float), cudaMemcpyHostToDevice));
 
         // Construct the initial energy
         construct_delta_H(cublasHandle, matrixA, matrixA_fp32, spin, spin_fp32, delta_H, delta_H_fp32, trottersMatrixB);
@@ -587,7 +599,6 @@ int main (int argc, char *argv[]) {
          beta += increase;
         } 
         cudaDeviceSynchronize();
-        
         
         end = clock();
         double duration = (double)(end-begin) / CLOCKS_PER_SEC;
