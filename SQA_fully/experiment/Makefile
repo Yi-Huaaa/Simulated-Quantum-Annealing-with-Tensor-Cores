@@ -5,7 +5,7 @@ CUDAFLAGS=-arch=sm_70 -lcublas
 # target cuda code
 TARGET=v5-1-9
 
-SPINS=1024 2048 4096 8192 16384 32768 65536ULL
+SPINS=1024 2048 4096 8192 16384 32768
 #SPINS=131072ULL 262144ULL
 #TROTTERS=16 32 64 128 256
 TROTTERS=4 8 16 32 64 128 256 512
@@ -73,10 +73,19 @@ m2_plot:
 	@python plot_m2.py
 
 tc:
-	@for n in $(SPINS); do \
-		echo "Generate binary, N=$$n"; \
-		sed -i "s/^#define N .*$$/#define N $$n/g" $(TARGET).cu; \
-		$(CC) $(CUDAFLAGS) $(TARGET).cu -o src/$(TARGET)-$$n; \
+	@declare -A GSETS=( ["1024"]=G1 ["2048"]=G22 ["4096"]=G48 ["8192"]=G65 ["16384"]=G77 ["32768"]=G81 ["65536ULL"]=G81 )\
+	; for n in $(SPINS); do \
+		for m in $(TROTTERS); do \
+			Gset_file=$${GSETS[$${n}]}; \
+			sed -i "s/^#define N .*$$/#define N $$n/g" $(TARGET).cu; \
+			sed -i "s/^#define M .*$$/#define M $$m/g" $(TARGET).cu; \
+			echo "TC, N=$$n, M=$$m, Gset=$$Gset_file"; \
+			$(CC) $(CUDAFLAGS) -DTC $(TARGET).cu ; \
+			nvprof ./a.out Gset/$$Gset_file ; \
+			echo "no TC, N=$$n, M=$$m, Gset=$$Gset_file"; \
+			$(CC) $(CUDAFLAGS) $(TARGET).cu; \
+			nvprof ./a.out Gset/$$Gset_file ; \
+		done \
         done
 	
 
