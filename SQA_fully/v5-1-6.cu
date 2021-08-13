@@ -1,10 +1,3 @@
-/*
-random移到外面
-和 515差別：random 的時間算進去
-
-問題：答案越大越不準
-
-*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -24,7 +17,7 @@ using namespace nvcuda;
 #define M_2 32
 
 #define TIMES 1//10
-#define STEP 100 //100
+#define STEP 5 //100
 
 // Must be multiples of 16
 #define MATRIX_M N
@@ -73,13 +66,21 @@ void construct_spin(float *spin, float *spin_fp32,int total_spins){
 
 void construct_delta_H(cublasHandle_t cublasHandle, float *couplings_fp32, float *spin_fp32, float *delta_H_fp32){
     float alpha = 1.0f, beta = 0.0f;
-    cublasErrCheck(cublasSgemm(cublasHandle, CUBLAS_OP_N, CUBLAS_OP_N, 
+    /*cublasErrCheck(cublasSgemm(cublasHandle, CUBLAS_OP_N, CUBLAS_OP_N, 
                                 MATRIX_M, MATRIX_N, MATRIX_K,
                                 &alpha, 
                                 couplings_fp32, MATRIX_M,
                                 spin_fp32, MATRIX_K,
                                 &beta,
-                                delta_H_fp32, MATRIX_M));
+                                delta_H_fp32, MATRIX_M));*/
+    cublasErrCheck(cublasGemmEx(cublasHandle, CUBLAS_OP_N, CUBLAS_OP_N, 
+                            MATRIX_M, MATRIX_N, MATRIX_K,
+                            &alpha, 
+                            couplings_fp32, CUDA_R_32F, MATRIX_M,
+                            spin_fp32, CUDA_R_32F, MATRIX_K, 
+                            &beta, 
+                            delta_H_fp32, CUDA_R_32F, MATRIX_M,
+                            CUBLAS_COMPUTE_32F_PEDANTIC, CUBLAS_GEMM_DEFAULT_TENSOR_OP));
 
 }
 
@@ -87,15 +88,24 @@ void update_delta_H(cublasHandle_t cublasHandle, float *couplings_fp32, float *m
     float alpha = 1.0f, beta = 1.0f;    
     int blk_num = which_spin / M_2;
     int coup_idx = blk_num * (N * M_2);
-    cublasErrCheck(cublasSgemm(cublasHandle, CUBLAS_OP_N, CUBLAS_OP_N, 
+    /*cublasErrCheck(cublasSgemm(cublasHandle, CUBLAS_OP_N, CUBLAS_OP_N, 
                                 MATRIX_M, MATRIX_N, M_2,
                                 &alpha, 
                                 couplings_fp32 + coup_idx, MATRIX_M,
                                 matrix_B_fp32, M_2,
                                 &beta,
-                                delta_H_fp32, MATRIX_M));
-}
+                                delta_H_fp32, MATRIX_M));*/
+    cublasErrCheck(cublasGemmEx(cublasHandle, CUBLAS_OP_N, CUBLAS_OP_N, 
+                            MATRIX_M, MATRIX_N, M_2,
+                            &alpha, 
+                            couplings_fp32 + coup_idx, CUDA_R_32F, MATRIX_M,
+                            matrix_B_fp32, CUDA_R_32F, M_2, 
+                            &beta, 
+                            delta_H_fp32, CUDA_R_32F, MATRIX_M,
+                            CUBLAS_COMPUTE_32F , CUBLAS_GEMM_DEFAULT_TENSOR_OP));
 
+
+}
 
 void construct_lograndval(float *log_rand_val, float *log_rand_val_fp32, float beta){
     srand(time(0));
@@ -252,7 +262,7 @@ int main(int argc, char* argv[]) {
 
 
     // TC, using tensor core
-    cublasErrCheck(cublasSetMathMode(cublasHandle, CUBLAS_DEFAULT_MATH)); 
+    cublasErrCheck(cublasSetMathMode(cublasHandle, CUBLAS_TENSOR_OP_MATH)); 
     
     // Parameters init
     float results[TIMES] = {0.};
@@ -276,7 +286,6 @@ int main(int argc, char* argv[]) {
         for (int p = 0; p < STEP; p++) {
             float Gamma = G0*(1.-(float)p/(float)STEP);
             float J_perp = -0.5*log(tanh((Gamma/M)*beta))/beta;
-
 
             for (int n = 0; n < N; n+=32) {
                 construct_lograndval(log_rand_val, log_rand_val_fp32, beta);
