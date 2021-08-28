@@ -13,13 +13,14 @@
 using namespace nvcuda;
 #define IDX2C(i,j,ld) (((j)*(ld))+(i))
 
-// SQA parameters
-#define N 65536ULL
-#define M 512
-#define M_2 128
+// SQA parametersl
+// #define N 1024 // 1024 2048 4096 8192 16384 32768, 6
+// #define M 16 // 4 8 16 32 64 127 256 512, 8
+#define M_2 128 // 16 32 64 127 256 512 1024, 7
 
-#define TIMES 1
-#define STEP 100
+#define TIMES 100
+#define STEP 1000
+
 
 // Must be multiples of 16
 #define MATRIX_M N
@@ -90,7 +91,7 @@ void update_delta_H(cublasHandle_t cublasHandle, half *couplings_fp16, half *mat
     int matrix_m = (N > 32768) ? 32768 : N;
 
     for (int i = 0; i < loop_iter; i++) {
-	    unsigned long long int coup_idx = blk_num * (N * M_2) + i*32768*M_2;
+        unsigned long long int coup_idx = blk_num * (N * M_2) + i*32768*M_2;
         cublasErrCheck(cublasGemmEx(cublasHandle, CUBLAS_OP_N, CUBLAS_OP_N,
                                     matrix_m, MATRIX_N, MATRIX_K,
                                     &alpha,
@@ -102,32 +103,57 @@ void update_delta_H(cublasHandle_t cublasHandle, half *couplings_fp16, half *mat
                                     CUBLAS_COMPUTE_32F, 
 #else
                                     CUDA_R_32F,
-#endif	
+#endif  
                                     CUBLAS_GEMM_DEFAULT_TENSOR_OP));
-	}
+    }
 }
 
 void construct_lograndval(float *log_rand_val, float *log_rand_val_fp32, cudaStream_t stream){
-	#pragma omp parallel for num_threads(16)
+    #pragma omp parallel for num_threads(16)
     for(int i = 0; i < N; i++){
         log_rand_val[IDX2C(i,0,N)] = (-log(((float)rand()/(float)(RAND_MAX)) * 1.0));
     }
-	#pragma omp parallel for num_threads(16)
+    #pragma omp parallel for num_threads(16)
     for (int m = M-1; m >= 1; m--)
         memcpy(&log_rand_val[m*N], &log_rand_val[(m-1)*N], N*sizeof(float));
     cudaErrCheck (cudaMemcpyAsync(log_rand_val_fp32, log_rand_val, M*N*sizeof(float), cudaMemcpyHostToDevice, stream));
 }
 
-float calculate_E (float *spin, float *spin_fp32, half *couplings){
+float calculate_maxcut (float *spin, float *spin_fp32, half *couplings, int total_spins, int total_couplings){
     cudaErrCheck(cudaMemcpy(spin, spin_fp32, M*N*sizeof(float), cudaMemcpyDeviceToHost));
     float E = 0;
-    for (int i = 0; i < N; i++){
-        for (int j = i+1; j < N; j++){
+    for (int i = 0; i < total_spins; i++){
+        for (int j = i+1; j < total_spins; j++){
             E += -spin[IDX2C(i,0,N)]*spin[IDX2C(j,0,N)]*(float)couplings[IDX2C(i,j,N)];
         }
     }
-    return E;
+    // printf("E = %f\n", E);
+    // return E;
+    float maxCut = 0.;
+    for (int i = 0; i < total_spins; i++){
+        for (int j = i+1; j < total_spins; j++){
+            maxCut += ((1.0 - spin[IDX2C(i,0,N)]*spin[IDX2C(j,0,N)])/2)*((float)couplings[IDX2C(i,j,N)]);
+            // if((spin[IDX2C(i,0,N)] != spin[IDX2C(j,0,N)]) && (float)couplings[IDX2C(i,j,N)] != 0.){
+            //     // printf("(float)couplings[IDX2C(%d,%d,N)] = %f, spin[IDX2C(%d,N)] = %f,  spin[IDX2C(%d,N)]) = %f\n", i, j, (float)couplings[IDX2C(i,j,N)], i, spin[IDX2C(i,0,N)], j,spin[IDX2C(j,0,N)] );
+            //     maxCut++;
+            // }
+        }
+    }
+    // int pos = 0, neg = 0;
+    // for (int i = 0; i < total_spins; i++){
+    //     if(spin[IDX2C(i,0,N)] == 1)
+    //         pos ++;
+    //     else 
+    //         neg ++;
+    // }
+    // printf("pos = %d, neg = %d, total = %d\n", pos, neg, (pos + neg));
+    // if(maxCut < 0){
+    //     maxCut *= -1;
+    // }
+    return -(maxCut);
 }
+
+
 
 __global__ void judge_flipping_com (half *couplings_fp16, float *delta_H_fp32, float *spin_fp32, half *matrix_B_fp16, float *log_rand_val_fp32, int J_perp, float beta, int start_spin){
     int m = blockIdx.x;
@@ -190,8 +216,8 @@ int main(int argc, char* argv[]) {
     fscanf(instance, "%d%d", &total_spins, &total_couplings);
     while (total_couplings --) {
         fscanf(instance, "%d%d%f", &a, &b, &w);
-        //a--;
-        //b--;
+        a--;
+        b--;
         couplings[IDX2C(a,b,N)] = w;
         couplings[IDX2C(b,a,N)] = w;
     }
@@ -228,7 +254,7 @@ int main(int argc, char* argv[]) {
     cudaErrCheck(cudaMalloc((void**)&log_rand_val_fp32, M*N*sizeof(float)));
     
     // TC, using tensor core
-    cublasErrCheck(cublasSetMathMode(cublasHandle, CUBLAS_TENSOR_OP_MATH)); 
+    cublasErrCheck(cublasSetMathMode(cublasHandle, CUBLAS_TENSOR_OP_MATH));  //CUBLAS_PEDANTIC_MATH, CUBLAS_TENSOR_OP_MATH
     
     // Parameters init
     float results[TIMES] = {0.};
@@ -245,6 +271,7 @@ int main(int argc, char* argv[]) {
     best_spin = (float*)malloc(M*N*sizeof(float));
     memset(best_spin, 0, M*N*sizeof(float)); 
     float best_E = 1e9;
+    float bset_cut = -1e9;
 
     for (int t = 0; t < TIMES; t++) {
         float beta = 1/(float)16; //bete = 1/Time
@@ -254,7 +281,7 @@ int main(int argc, char* argv[]) {
         construct_delta_H<<<N/64, 64>>>(couplings_fp16, spin_fp32, delta_H_fp32);
         cudaDeviceSynchronize();
             
-		// Current cost time
+        // Current cost time
         struct timeval begin, end;
         gettimeofday(&begin, NULL);
 
@@ -270,40 +297,33 @@ int main(int argc, char* argv[]) {
                 update_delta_H(cublasHandle, couplings_fp16, matrix_B_fp16, delta_H_fp32, n);              
             }
             beta += increase;
-            
-            //printf("curr: %10lf, energy: %10d\n", curr, E);
-            /*float E = calculate_E(spin, spin_fp32, couplings);
-	    if (E < best_E) {
-	        best_E = E;
-                memcpy(best_spin, spin, M*N*sizeof(float));
-	    }*/
         } 
         cudaDeviceSynchronize();
-		gettimeofday(&end, NULL);
-		double duration = ((end.tv_sec  - begin.tv_sec) * 1000000u +
+        gettimeofday(&end, NULL);
+        double duration = ((end.tv_sec  - begin.tv_sec) * 1000000u +
                          end.tv_usec - begin.tv_usec) / 1.e6;
             
         used_time[t] = duration;
         
-        float best_E = calculate_E(spin, spin_fp32, couplings);
+        float best_E = calculate_maxcut(spin, spin_fp32, couplings, total_spins, total_couplings);
         memcpy(best_spin, spin, M*N*sizeof(float));
         results[t] = best_E;
+        if(best_E > bset_cut)
+            bset_cut = best_E;
 
-//	for (int i = 0; i < total_spins; i++)
-//	    printf("%d ", (int)best_spin[IDX2C(i,0,N)]);
-//	printf("%f\n", best_E);
     }
     
     for (int t = 0; t < TIMES; t++){
-        printf("TIME: %d,  used time (s): %10lf,  Energy: %10lf\n", t, used_time[t], results[t]);
+        printf("TIME: %d,  used time (s): %10lf,  Maxcut: %10lf\n", t, used_time[t], results[t]);
     }
     float tot_result_time = 0., tot_energy = 0.;
     for(int i = 0; i < TIMES; i++){
         tot_result_time += used_time[i];
         tot_energy += results[i];
+
     }
     printf("\nAvg time  : %f\n", tot_result_time/TIMES);
-    printf("Avg energy: %f\n", tot_energy/TIMES);
+    printf("Avg Maxcut: %f, Best cut = %f\n", tot_energy/TIMES, bset_cut);
 
     cublasDestroy(cublasHandle); 
     cudaStreamDestroy(stream1);
