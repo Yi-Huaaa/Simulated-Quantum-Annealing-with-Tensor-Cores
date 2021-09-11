@@ -1,0 +1,188 @@
+M = 1 - 40 (44)
+G1
+M = 3, Avg Maxcut: 11489.200195, Best cut = 11525.000000
+M = 9, Avg Maxcut: 11490.799805, Best cut = 11531.000000
+M = 24, Avg Maxcut: 11491.400391, Best cut = 11532.000000
+M = 27, Avg Maxcut: 11491.900391, Best cut = 11533.000000
+M = 28, Avg Maxcut: 11490.799805, Best cut = 11536.000000
+M = 30, Avg Maxcut: 11485.299805, Best cut = 11537.000000
+M = 33, Avg Maxcut: 11484.700195, Best cut = 11541.000000
+
+G2
+M = 2, Avg Maxcut: 11489.700195, Best cut = 11545.000000
+M = 30, Avg Maxcut: 11477.000000, Best cut = 11504.000000
+M = 35, Avg Maxcut: 11394.299805, Best cut = 11541.000000
+M = 22, Avg Maxcut: 11502.099609, Best cut = 11541.000000
+M = 8, Avg Maxcut: 11522.400391, Best cut = 11559.000000
+M = 8, Avg Maxcut: 11530.799805, Best cut = 11578.000000
+
+G3
+M = 8, Avg Maxcut: 11476.900391, Best cut = 11503.000000
+M = 10, Avg Maxcut: 11482.799805, Best cut = 11537.000000
+M = 18, Avg Maxcut: 11540.400391, Best cut = 11559.000000
+
+G4 (v)
+M = 32, Avg Maxcut: 11568.400391, Best cut = 11611.000000
+
+G6
+M = 1, Avg Maxcut: 2023.400024, Best cut = 2073.000000
+M = 2, Avg Maxcut: 2049.100098, Best cut = 2077.000000
+M = 16, Avg Maxcut: 2063.899902, Best cut = 2097.000000
+M = 16, Avg Maxcut: 2069.800049, Best cut = 2108.000000
+
+G7
+M = 1, Avg Maxcut: 1878.800049, Best cut = 1910.000000
+M = 2, Avg Maxcut: 1886.300049, Best cut = 1931.000000
+M = 20, Avg Maxcut: 1902.699951, Best cut = 1927.000000
+
+G8
+M = 32, Avg Maxcut: 1863.699951, Best cut = 1932.000000
+M = 24, Avg Maxcut: 1897.199951, Best cut = 1933.000000
+M = 20, Avg Maxcut: 1881.599976, Best cut = 1958.000000
+
+G9
+M = 1, Avg Maxcut: 1899.300049, Best cut = 1938.000000
+M = 4, Avg Maxcut: 1945.699951, Best cut = 1967.000000
+M = 4, Avg Maxcut: 1968.199951, Best cut = 1989.000000
+
+G10
+M = 32, Avg Maxcut: 1840.699951, Best cut = 1889.000000
+M = 24, Avg Maxcut: 1850.599976, Best cut = 1902.000000
+M = 28, Avg Maxcut: 1867.099976, Best cut = 1907.000000
+M = 12, Avg Maxcut: 1906.400024, Best cut = 1931.000000
+
+G11 
+M = 1, Avg Maxcut: 552.400024, Best cut = 558.000000
+M = 4, Avg Maxcut: 554.599976, Best cut = 560.000000
+
+G12
+M = 32, Avg Maxcut: 542.599976, Best cut = 546.000000
+M = 4, Avg Maxcut: 547.400024, Best cut = 552.000000
+M = 4, Avg Maxcut: 547.599976, Best cut = 552.000000
+
+G13
+M = 1, Avg Maxcut: 569.000000, Best cut = 581.000000
+
+G14
+M = 1, Avg Maxcut: 3020.300049, Best cut = 3032.000000
+M = 32, Avg Maxcut: 3018.800049, Best cut = 3034.000000
+M = 32, Avg Maxcut: 3016.000000, Best cut = 3039.000000
+
+G15
+M = 1, Avg Maxcut: 2994.699951, Best cut = 3011.000000
+M = 16, Avg Maxcut: 2987.300049, Best cut = 3014.000000
+M = 16, Avg Maxcut: 2988.899902, Best cut = 3018.000000
+M = 38, Avg Maxcut: 3005.800049, Best cut = 3018.000000 
+
+G16
+M = 1, Avg Maxcut: 3001.300049, Best cut = 3018.000000
+M = 12, Avg Maxcut: 2996.800049, Best cut = 3010.000000
+M = 14, Avg Maxcut: 2989.300049, Best cut = 3017.000000
+M = 16, Avg Maxcut: 2986.500000, Best cut = 3020.000000
+M = 17, Avg Maxcut: 2969.199951, Best cut = 3026.000000
+M = 27, Avg Maxcut: 2880.600098, Best cut = 3027.000000
+
+G17
+M = 1, Avg Maxcut: 3000.600098, Best cut = 3019.000000
+
+G18
+M = 1, Avg Maxcut: 911.500000, Best cut = 950.000000
+M = 10, Avg Maxcut: 935.700012, Best cut = 944.000000
+M = 20, Avg Maxcut: 888.299988, Best cut = 948.000000
+M = 20, Avg Maxcut: 905.700012, Best cut = 955.000000
+
+G19
+M = 1, Avg Maxcut: 827.200012, Best cut = 854.000000
+M = 12, Avg Maxcut: 837.900024, Best cut = 853.000000
+M = 12, Avg Maxcut: 829.200012, Best cut = 862.000000
+M = 22, Avg Maxcut: 846.700012, Best cut = 864.000000
+M = 23, Avg Maxcut: 810.700012, Best cut = 871.000000
+
+G20
+M = 1, Avg Maxcut: 857.599976, Best cut = 890.000000
+M = 12, Avg Maxcut: 878.599976, Best cut = 895.000000
+M = 21, Avg Maxcut: 862.599976, Best cut = 907.000000
+M = 21, Avg Maxcut: 878.099976, Best cut = 909.000000
+M = 21, Avg Maxcut: 876.000000, Best cut = 917.000000
+
+G21
+M = 1, Avg Maxcut: 860.299988, Best cut = 886.000000
+M = 20, Avg Maxcut: 869.099976, Best cut = 893.000000
+
+G43
+M = 1, Avg Maxcut: 6543.799805, Best cut = 6569.000000
+M = 2, Avg Maxcut: 6547.299805, Best cut = 6574.000000
+M = 2, Avg Maxcut: 6548.399902, Best cut = 6580.000000
+M = 24, Avg Maxcut: 6545.700195, Best cut = 6584.000000
+M = 24, Avg Maxcut: 6544.600098, Best cut = 6587.000000
+M = 25, Avg Maxcut: 6569.399902, Best cut = 6594.000000
+M = 32, Avg Maxcut: 6559.700195, Best cut = 6598.000000
+
+G44
+M = 1, Avg Maxcut: 6535.200195, Best cut = 6570.000000
+M = 24, Avg Maxcut: 6529.299805, Best cut = 6583.000000
+M = 24, Avg Maxcut: 6542.299805, Best cut = 6592.000000
+
+G45
+M = 1, Avg Maxcut: 6537.899902, Best cut = 6567.000000
+M = 2, Avg Maxcut: 6546.399902, Best cut = 6577.000000
+M = 24, Avg Maxcut: 6518.600098, Best cut = 6574.000000
+M = 24, Avg Maxcut: 6511.799805, Best cut = 6586.000000
+M = 24, Avg Maxcut: 6528.500000, Best cut = 6588.000000
+M = 24, Avg Maxcut: 6548.200195, Best cut = 6592.000000
+
+G46
+M = 1, Avg Maxcut: 6543.700195, Best cut = 6578.000000
+
+G47
+M = 1, Avg Maxcut: 6547.200195, Best cut = 6590.000000
+M = 32, Avg Maxcut: 6568.700195, Best cut = 6590.000000
+M = 32, Avg Maxcut: 6572.299805, Best cut = 6602.000000
+M = ,
+
+G51 (v)
+M = 1, Avg Maxcut: 3787.500000, Best cut = 3800.000000
+M = 12, Avg Maxcut: 3779.300049, Best cut = 3798.000000
+M = 24, Avg Maxcut: 3736.000000, Best cut = 3805.000000
+M = 24, Avg Maxcut: 3756.100098, Best cut = 3813.000000
+
+G52
+M = 40, Avg Maxcut: 3774.800049, Best cut = 3795.000000
+M = 1, Avg Maxcut: 3792.199951, Best cut = 3803.000000
+M = 20, Avg Maxcut: 3784.699951, Best cut = 3804.000000
+M = 20, Avg Maxcut: 3784.800049, Best cut = 3807.000000
+
+G53 (v)
+M = 1, Avg Maxcut: 3790.699951, Best cut = 3810.000000
+M = 16, Avg Maxcut: 3792.399902, Best cut = 3807.000000
+M = 15, Avg Maxcut: 3724.100098, Best cut = 3808.000000
+M = 32, Avg Maxcut: 3796.399902, Best cut = 3811.000000
+
+G54 (v)g
+M = 1, Avg Maxcut: 3788.199951, Best cut = 3803.000000
+M = 20, Avg Maxcut: 3768.199951, Best cut = 3804.000000
+M = 21, Avg Maxcut: 3710.199951, Best cut = 3807.000000
+M = 32, Avg Maxcut: 3775.199951, Best cut = 3815.000000
+
+
+
+G22 - G42 // 2048
+G48 - G50 // 4096
+M = ,
+M = ,
+M = ,
+M = ,
+M = ,
+M = ,
+M = ,
+M = ,
+M = ,
+M = ,
+M = ,
+M = ,
+M = ,
+M = ,
+M = ,
+M = ,
+M = ,
+M = ,
