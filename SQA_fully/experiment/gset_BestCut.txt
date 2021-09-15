@@ -1,6 +1,14 @@
 /*
 brutal searh: 10, 11, 12, 13, 14, 15, 16, 1718, 19, 20, 21, 27, 28, 29, 30, 31, 32, 33, 34, 39, 40, 41, 42, 43, 48, 49, 50
+目前在跑：
+bash1: 
+44-47 (1024組)
+bash2: 
+56 57 59 61~65 (8192組)
+66 67 (16384組)
 */
+
+1024 區
 
 G1
 M = 3, Avg Maxcut: 11489.200195, Best cut = 11525.000000
@@ -24,8 +32,11 @@ M = 8, Avg Maxcut: 11476.900391, Best cut = 11503.000000
 M = 10, Avg Maxcut: 11482.799805, Best cut = 11537.000000
 M = 18, Avg Maxcut: 11540.400391, Best cut = 11559.000000
 
-G4 (v)
+G4 
 M = 32, Avg Maxcut: 11568.400391, Best cut = 11611.000000
+
+G5 
+M = 1, Avg Maxcut: 11564.599609, Best cut = 11595.000000
 
 G6
 M = 1, Avg Maxcut: 2023.400024, Best cut = 2073.000000
@@ -62,7 +73,7 @@ M = 4, Avg Maxcut: 1968.199951, Best cut = 1989.000000
 M = 11, Avg Maxcut: 1997.199951, Best cut = 2039.000000
 M = 1, Avg Maxcut: 1980.800049, Best cut = 2047.000000
 
-G10 (v)
+G10 
 M = 32, Avg Maxcut: 1840.699951, Best cut = 1889.000000
 M = 24, Avg Maxcut: 1850.599976, Best cut = 1902.000000
 M = 28, Avg Maxcut: 1867.099976, Best cut = 1907.000000
@@ -140,15 +151,11 @@ M = 17, Avg Maxcut: 876.700012, Best cut = 902.000000
 M = 19, Avg Maxcut: 867.500000, Best cut = 907.000000
 M = 21, Avg Maxcut: 904.500000, Best cut = 918.000000
 
-
 G43
-M = 1, Avg Maxcut: 6543.799805, Best cut = 6569.000000
-M = 2, Avg Maxcut: 6547.299805, Best cut = 6574.000000
-M = 2, Avg Maxcut: 6548.399902, Best cut = 6580.000000
-M = 24, Avg Maxcut: 6545.700195, Best cut = 6584.000000
-M = 24, Avg Maxcut: 6544.600098, Best cut = 6587.000000
 M = 25, Avg Maxcut: 6569.399902, Best cut = 6594.000000
 M = 32, Avg Maxcut: 6559.700195, Best cut = 6598.000000
+M = 11, Avg Maxcut: 6594.299805, Best cut = 6623.000000 
+M = 1, Avg Maxcut: 6614.399902, Best cut = 6644.000000
 
 G44
 M = 1, Avg Maxcut: 6535.200195, Best cut = 6570.000000
@@ -170,9 +177,8 @@ G47
 M = 1, Avg Maxcut: 6547.200195, Best cut = 6590.000000
 M = 32, Avg Maxcut: 6568.700195, Best cut = 6590.000000
 M = 32, Avg Maxcut: 6572.299805, Best cut = 6602.000000
-M = ,
 
-G51 (v)
+G51 
 M = 1, Avg Maxcut: 3787.500000, Best cut = 3800.000000
 M = 12, Avg Maxcut: 3779.300049, Best cut = 3798.000000
 M = 24, Avg Maxcut: 3736.000000, Best cut = 3805.000000
@@ -184,57 +190,70 @@ M = 1, Avg Maxcut: 3792.199951, Best cut = 3803.000000
 M = 20, Avg Maxcut: 3784.699951, Best cut = 3804.000000
 M = 20, Avg Maxcut: 3784.800049, Best cut = 3807.000000
 
-G53 (v)
+G53 
 M = 1, Avg Maxcut: 3790.699951, Best cut = 3810.000000
 M = 16, Avg Maxcut: 3792.399902, Best cut = 3807.000000
 M = 15, Avg Maxcut: 3724.100098, Best cut = 3808.000000
 M = 32, Avg Maxcut: 3796.399902, Best cut = 3811.000000
 
-G54 (v)
+G54 
 M = 1, Avg Maxcut: 3788.199951, Best cut = 3803.000000
 M = 20, Avg Maxcut: 3768.199951, Best cut = 3804.000000
 M = 21, Avg Maxcut: 3710.199951, Best cut = 3807.000000
 M = 32, Avg Maxcut: 3775.199951, Best cut = 3815.000000
+M = 1, Avg Maxcut: 13249.299805, Best cut = 13294.000000
 
 
-G22 - G42 // 2048
-G48 - G50 // 4096
-
+// 2048區
 G22
-M = 1, Avg Maxcut: 13064.000000, Best cut = 13140.000000
-M = 2, Avg Maxcut: 13130.400391, Best cut = 13198.000000 
-M = 2, Avg Maxcut: 13129.000000, Best cut = 13203.000000
-M = 2, Avg Maxcut: 13126.500000, Best cut = 13216.000000
+M = 11, Avg Maxcut: 13140.900391, Best cut = 13186.000000
+M = 13, Avg Maxcut: 13196.599609, Best cut = 13255.000000
+M = 19, Avg Maxcut: 13233.299805, Best cut = 13281.000000
+M = 1, Avg Maxcut: 13250.599609, Best cut = 13294.000000
+M = 25, Avg Maxcut: 13270.099609, Best cut = 13311.000000
+M = 39, Avg Maxcut: 13193.900391, Best cut = 13314.000000
 
 G23
-M = ,
-M = ,
-M = ,
+M = 11, Avg Maxcut: 13177.299805, Best cut = 13239.000000
+M = 13, Avg Maxcut: 13198.599609, Best cut = 13239.000000
+M = 15, Avg Maxcut: 13161.299805, Best cut = 13262.000000
+M = 1, Avg Maxcut: 13264.099609, Best cut = 13297.000000
+M = 39, Avg Maxcut: 13184.900391, Best cut = 13313.000000
 
 G24
-M = ,
-M = ,
-M = ,
+M = 11, Avg Maxcut: 13187.299805, Best cut = 13229.000000
+M = 13, Avg Maxcut: 13184.200195, Best cut = 13233.000000
+M = 15, Avg Maxcut: 13182.900391, Best cut = 13258.000000
+M = 19, Avg Maxcut: 13236.900391, Best cut = 13275.000000
+M = 27, Avg Maxcut: 13189.200195, Best cut = 13284.000000
+M = 37, Avg Maxcut: 13146.000000, Best cut = 13286.000000
 
 G25
-M = ,
-M = ,
-M = ,
+M = 11, Avg Maxcut: 13207.599609, Best cut = 13257.000000 
+M = 15, Avg Maxcut: 13166.400391, Best cut = 13259.000000
+M = 23, Avg Maxcut: 13172.799805, Best cut = 13297.000000
+M = 39, Avg Maxcut: 13190.700195, Best cut = 13302.000000
 
 G26
-M = ,
-M = ,
-M = ,
+M = 1, Avg Maxcut: 13250.700195, Best cut = 13276.000000
+M = 11, Avg Maxcut: 13179.599609, Best cut = 13229.000000
+M = 1, Avg Maxcut: 13244.700195, Best cut = 13279.000000
+M = 29, Avg Maxcut: 13193.799805, Best cut = 13284.000000
+M = 39, Avg Maxcut: 13176.299805, Best cut = 13289.000000
 
 G27
 M = 1, Avg Maxcut: 3256.199951, Best cut = 3294.000000
-M = ,
-M = ,
+M = 11, Avg Maxcut: 3184.300049, Best cut = 3228.000000
+M = 1, Avg Maxcut: 3246.600098, Best cut = 3268.000000
+M = 27, Avg Maxcut: 3197.500000, Best cut = 3292.000000
+M = 29, Avg Maxcut: 3194.600098, Best cut = 3294.000000
+M = 35, Avg Maxcut: 3208.199951, Best cut = 3302.000000
 
 G28
 M = 11, Avg Maxcut: 3136.800049, Best cut = 3189.000000
 M = 19, Avg Maxcut: 3130.699951, Best cut = 3208.000000
 M = 1, Avg Maxcut: 3227.199951, Best cut = 3262.000000
+M = 29, Avg Maxcut: 3153.100098, Best cut = 3266.000000
 
 G29
 M = 11, Avg Maxcut: 3239.699951, Best cut = 3288.000000
@@ -256,7 +275,7 @@ M = 29, Avg Maxcut: 3161.199951, Best cut = 3262.000000
 M = 31, Avg Maxcut: 3068.500000, Best cut = 3268.000000
 M = 39, Avg Maxcut: 3117.399902, Best cut = 3281.000000
 
-G32 (v)
+G32 
 M = 10, Avg Maxcut: 1340.599976, Best cut = 1376.000000
 M = 14, Avg Maxcut: 1368.800049, Best cut = 1380.000000
 M = 1, Avg Maxcut: 1386.000000, Best cut = 1392.000000
@@ -271,28 +290,25 @@ M = 11, Avg Maxcut: 1038.800049, Best cut = 1364.000000
 M = 1, Avg Maxcut: 1362.199951, Best cut = 1366.000000
 
 G35
-M = ,
-M = ,
-M = ,
-M = ,
+M = 11, Avg Maxcut: 7417.799805, Best cut = 7594.000000
+M = 13, Avg Maxcut: 7444.000000, Best cut = 7613.000000
+M = 1, Avg Maxcut: 7613.600098, Best cut = 7624.000000
 
 G36
-M = ,
-M = ,
-M = ,
-M = ,
+M = 13, Avg Maxcut: 7410.899902, Best cut = 7608.000000
+M = 1, Avg Maxcut: 7601.500000, Best cut = 7620.000000
 
 G37
-M = ,
-M = ,
-M = ,
-M = ,
+M = 11, Avg Maxcut: 7413.299805, Best cut = 7601.00000
+M = 13, Avg Maxcut: 7425.200195, Best cut = 7606.000000
+M = 15, Avg Maxcut: 7349.799805, Best cut = 7615.000000
+M = 1, Avg Maxcut: 7613.799805, Best cut = 7640.000000
 
 G38
-M = ,
-M = ,
-M = ,
-M = ,
+M = 11, Avg Maxcut: 7452.200195, Best cut = 7607.000000
+M = 15, Avg Maxcut: 7337.399902, Best cut = 7611.000000
+M = 1, Avg Maxcut: 7608.299805, Best cut = 7628.000000
+M = 2, Avg Maxcut: 7617.100098, Best cut = 7632.000000
 
 G39
 M = 11, Avg Maxcut: 2252.300049, Best cut = 2315.000000
@@ -315,46 +331,79 @@ G42
 M = 11, Avg Maxcut: 2364.500000, Best cut = 2408.000000
 M = 13, Avg Maxcut: 2367.000000, Best cut = 2436.000000
 
-G43
-M = 11, Avg Maxcut: 6594.299805, Best cut = 6623.000000 
-M = 1, Avg Maxcut: 6614.399902, Best cut = 6644.000000
 
-
-G44
-M = ,
-M = ,
-M = ,
-M = ,
-
-G45
-M = ,
-M = ,
-M = ,
-M = ,
-
-G46
-M = ,
-M = ,
-M = ,
-
-G47
-M = ,
-M = ,
-M = ,
-
-G48
+//4096 區
+G48 (一堆M都有達到6000, 6000 是全局最佳解)
 M = 10, Avg Maxcut: 6000.000000, Best cut = 6000.000000
-(一堆M都有達到6000, 6000 是全局最佳解)
 
-G49
+G49 (一堆M都有達到6000, 6000 是全局最佳解)
 M = 26, Avg Maxcut: 6000.000000, Best cut = 6000.000000
-(一堆M都有達到6000, 6000 是全局最佳解)
 
-G50
+G50 (一堆M都有達到5880, 5880 是全局最佳解)
 M = 24, Avg Maxcut: 5880.000000, Best cut = 5880.000000
-(一堆M都有達到5880, 5880 是全局最佳解)
 
-G51
+//8192區
+G56
+M = , 
 M = ,
+M = ,
+
+G57
+M = , 
+M = ,
+M = ,
+
+G59
+M = , 
+M = ,
+M = ,
+
+G61
+M = , 
+M = ,
+M = ,
+
+G62
+M = , 
+M = ,
+M = ,
+
+G63
+M = , 
+M = ,
+M = ,
+
+G64
+M = , 
+M = ,
+M = ,
+
+G65
+M = , 
+M = ,
+M = ,
+
+G66
+M = , 
+M = ,
+M = ,
+
+G67
+M = , 
+M = ,
+M = ,
+
+G72
+M = , 
+M = ,
+M = ,
+
+G77
+M = , 
+M = ,
+M = ,
+
+G81
+M = , 
 M = ,
 M = ,
