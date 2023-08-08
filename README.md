@@ -23,16 +23,23 @@ Notes: For a deeper comprehension of the Hamiltonian and TFIM models, please ref
 ---
 
 ## Acceleration Strategy
-* Detial [Link](https://yi-huaaa.github.io/2022/05/10/Accelerating%20Simulated%20Quantum%20Annealing%20with%20GPU%20and%20Tensor%20Cores/)
+* Detail [Link](https://yi-huaaa.github.io/2022/05/10/Accelerating%20Simulated%20Quantum%20Annealing%20with%20GPU%20and%20Tensor%20Cores/)
 	- It elaborates on the operational mechanics of the mentioned SQA as delineated within the contents of our paper.
 	- The "Analysis for HU" section in the link provides an account of the disparities in total computational complexity introduced by including the Hierarchical Update (HU) strategy, incorporating both additive and multiplicative computations. Through the comparative assessment of these computational disparities, a clearer comprehension of the underlying rationale for the acceleration of the SQA due to HU can be attained.
 	- The provided link offers a pre-recorded video of the conference presentation and comprehensive reference materials in the form of presentation slides.
 
 ## Accuracy
 ### Adjustable Parameters
+*  Including:
+	*  $N$: #spin
+ 	*  $M$: #trotter
+  	*  $M\_2$
+ 	*  $TIMES$: #round
+ 	*  $STEP$: annealing steps per round
+ 	*  ${G0}$ and ${beta}$ $\to$ according to Parameter configuration reference:
+		- [An Ising computer based on simulated quantum annealing by path integral Monte Carlo method](https://ieeexplore.ieee.org/abstract/document/8123652)
 * My initial approach to determine the optimal parameters settings was brute force.
-* Parameter configuration reference
-	- [An Ising computer based on simulated quantum annealing by path integral Monte Carlo method](https://ieeexplore.ieee.org/abstract/document/8123652)
+	
 
 ### Something Needs to Know
 * Our paper exclusively addresses the MAX-CUT problem on a fully connected Ising model; therefore, to tackle different Ising problems, one would need to independently map the QUBO form to the Ising problem and subsequently adapt and rewrite the Hamiltonian computation function accordingly in the program.
@@ -63,8 +70,8 @@ make speed     # test speed for different N,M
 * three files inside
 * parameters:
   * N = 1024 ~ 32768
-  * M = 4 - 512
-  * M2 = 15 - 1024
+  * M = 1 - 512
+  * M2 = 1 - 1024
 * run.sh -> get exe files
 * com.sh -> get running time
 * cut.sh -> grep out "avg time, gemm, judge" times
