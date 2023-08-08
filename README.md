@@ -38,7 +38,8 @@ Notes: For a deeper comprehension of the Hamiltonian and TFIM models, please ref
 * Our paper exclusively addresses the MAX-CUT problem on a fully connected Ising model; therefore, to tackle different Ising problems, one would need to independently map the QUBO form to the Ising problem and subsequently adapt and rewrite the Hamiltonian computation function accordingly in the program.
 
 * The program exclusively supports the MatrixMarket format for text input, along with the MAX-CUT benchmark dataset Gset.
-	- Gset is a collection of instances for the MAX-CUT problem.[Gset](https://web.stanford.edu/~yyye/yyye/Gset/)
+	- Gset is a collection of instances for the MAX-CUT problem.
+ 	- [Gset](https://web.stanford.edu/~yyye/yyye/Gset/)
 
 * My approach was entirely brute-force to find out the best spin configuration in nature, as the flipping of spins was based on random probabilities. Consequently, it was possible for the flipping to occur even in regions with higher energy. Therefore, my initial strategy involved storing spin configurations in GPU global memory whenever a configuration with lower energy was obtained. One drawback of this approach was its slowdown due to the time-consuming data transfer process.
 * The current program utilizes Tensor cores, but you can consider implementing an additional function that runs purely on CUDA cores.
