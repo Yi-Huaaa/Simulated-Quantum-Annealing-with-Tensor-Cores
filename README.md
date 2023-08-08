@@ -3,7 +3,7 @@
 ## Introduction
 Inspired by quantum annealing, simulated quantum annealing (SQA) mimics quantum tunneling effects on classical computers to perform annealing through a path-integral Monte Carlo simulation, which increases the potential to find the global optima faster than traditional annealing algorithms for large-size combinatorial optimization problems while today’s quantum annealing systems are of a limited number of qubits. As previous studies have accelerated SQA with Graphics Processing Unit (GPU) and specialized hardware such as Field Programmable Gate Array (FPGA), we propose an innovative parallelizing strategy called hierarchical update to vastly improve the efficiency of parallel computing, which is capable of accelerating state-of-the-art SQA implementations further by 7X-47.2X based on our case studies. Furthermore, we develop a tensorizing scheme to leverage the Tensor Cores on modern GPUs to deliver up to 1.83X of additional speedup. Overall, our work solves fully-connected Ising models faster than any previous SQA work. Our solution outperforms existing GPU-based solutions by 86.6X and FPGA-based solutions by 14X.
 
-## Paper
+## Paper and Reference
 * Ours: [Accelerating Simulated Quantum Annealing with GPU and Tensor Cores](https://link.springer.com/chapter/10.1007/978-3-031-07312-0_9)
 * Tohoku_fully_GPU: [A GPU-Based Quantum Annealing Simulator for Fully-Connected Ising Models Utilizing Spatial and Temporal Parallelism](https://ieeexplore.ieee.org/abstract/document/9057502)
 * Tohoku_fully_FPGA: [Highly-Parallel FPGA Accelerator for Simulated Quantum Annealing](https://ieeexplore.ieee.org/document/8918417)
@@ -13,7 +13,7 @@ Inspired by quantum annealing, simulated quantum annealing (SQA) mimics quantum 
 * [cublas](https://developer.nvidia.com/cublas)
 
 
-## Some parameter defined in the program
+## Some Parameter Defined in the Program
 1. M: #Trotter
 2. N: #Spin
 3. $J_{i,j}$: coupling of $spin_{i}$ and $spin_{j}$
@@ -34,7 +34,7 @@ Notes: For a deeper comprehension of the Hamiltonian and TFIM models, please ref
 * Parameter configuration reference
 	- [An Ising computer based on simulated quantum annealing by path integral Monte Carlo method](https://ieeexplore.ieee.org/abstract/document/8123652)
 
-### Something needs to know
+### Something Needs to Know
 * Our paper exclusively addresses the MAX-CUT problem on a fully connected Ising model; therefore, to tackle different Ising problems, one would need to independently map the QUBO form to the Ising problem and subsequently adapt and rewrite the Hamiltonian computation function accordingly in the program.
 
 * The program exclusively supports the MatrixMarket format for text input, along with the MAX-CUT benchmark dataset Gset.
@@ -46,7 +46,7 @@ Notes: For a deeper comprehension of the Hamiltonian and TFIM models, please ref
 * Depending on the GPU architecture, varying $M_2$ values are required, resulting in differing speeds. For a comprehensive analysis of $M_2$, please refer to the paper.
 
 
-## More improvement
+## More Improvement
 * Currently, Tensor cores are utilized through calls to the cuBLAS library. However, it's also possible to implement custom PTX code without relying on libraries, aiming to optimize the program's pipeline as much as possible.
 * Since spins can only take on two possibilities, ${+1}$ or ${-1}$, you can utilize the `int2` data type to store a spin. However, there isn't currently a library available to directly handle this. Therefore, the program needs to handle this aspect independently.
 
