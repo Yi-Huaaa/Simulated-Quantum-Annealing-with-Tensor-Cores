@@ -17,7 +17,7 @@ Inspired by quantum annealing, simulated quantum annealing (SQA) mimics quantum 
 1. M: #Trotter
 2. N: #Spin
 3. $J_{i,j}$: coupling of $spin_{i}$ and $spin_{j}$
-4. $\sigma_{i,k}$: $spin_{i}$ located on $#k$ trotter
+4. $\sigma_{i,k}$: $spin_{i}$ located on the number $k$ trotter
 Notes: For a deeper comprehension of the Hamiltonian and TFIM models, please refer to the paper and the accompanying references.
 
 ---
