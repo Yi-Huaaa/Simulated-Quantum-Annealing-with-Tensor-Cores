@@ -31,8 +31,8 @@ Notes: For a deeper comprehension of the Hamiltonian and TFIM models, please ref
 ## Accuracy
 ### Adjustable Parameters
 * My initial approach to determine the optimal parameters settings was brute force.
-* Parameter configuration reference:
-	- An Ising computer based on simulated quantum annealing by path integral Monte Carlo method](https://ieeexplore.ieee.org/abstract/document/8123652)
+* Parameter configuration reference
+	- [An Ising computer based on simulated quantum annealing by path integral Monte Carlo method](https://ieeexplore.ieee.org/abstract/document/8123652)
 
 ### Something needs to know
 * Our paper exclusively addresses the MAX-CUT problem on a fully connected Ising model; therefore, to tackle different Ising problems, one would need to independently map the QUBO form to the Ising problem and subsequently adapt and rewrite the Hamiltonian computation function accordingly in the program.
