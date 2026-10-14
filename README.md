@@ -75,3 +75,27 @@ make speed     # test speed for different N,M
 * run.sh -> get exe files
 * com.sh -> get running time
 * cut.sh -> grep out "avg time, gemm, judge" times
+
+## Citation
+
+If you use this project in your research, please cite our paper:
+
+```bibtex
+@inproceedings{chung2022accelerating,
+  title     = {Accelerating Simulated Quantum Annealing with {GPU} and Tensor Cores},
+  author    = {Chung, Yi-Hua and Shih, Cheng-Jhih and Hung, Shih-Hao},
+  booktitle = {International Conference on High Performance Computing},
+  pages     = {174--191},
+  year      = {2022},
+  publisher = {Springer},
+  doi       = {10.1007/978-3-031-07312-0_9}
+}
+```
+
+## License
+
+Except for `SQA_fully.pdf`, this repository is licensed under the
+[Apache License 2.0](LICENSE).
+
+The presentation file `SQA_fully.pdf` is not covered by the Apache License 2.0
+and remains subject to its existing copyright.
