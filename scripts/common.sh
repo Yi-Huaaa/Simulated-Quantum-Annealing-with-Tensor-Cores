@@ -3,9 +3,18 @@
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 ROOT_DIR=$(dirname "$SCRIPT_DIR")
 
-SQA=${SQA:-$ROOT_DIR/build/sqa}
-GSET_DIR=${GSET_DIR:-$ROOT_DIR/data/gset}
-RESULTS_DIR=${RESULTS_DIR:-$ROOT_DIR/results/local}
+# Paths set by the user are relative to the current directory. The scripts run
+# from the repository root with relative default paths, so that the logs do not
+# contain absolute paths of the machine.
+absolute() { if [[ "$1" == /* ]]; then echo "$1"; else echo "$PWD/$1"; fi; }
+[[ -n "${SQA:-}" ]] && SQA=$(absolute "$SQA")
+[[ -n "${GSET_DIR:-}" ]] && GSET_DIR=$(absolute "$GSET_DIR")
+[[ -n "${RESULTS_DIR:-}" ]] && RESULTS_DIR=$(absolute "$RESULTS_DIR")
+cd "$ROOT_DIR"
+
+SQA=${SQA:-build/sqa}
+GSET_DIR=${GSET_DIR:-data/gset}
+RESULTS_DIR=${RESULTS_DIR:-results/local}
 
 CSV_HEADER="graph,nodes,edges,N,M,M2,steps,tensor_cores,runs,avg_time_s,avg_cut,best_cut"
 
