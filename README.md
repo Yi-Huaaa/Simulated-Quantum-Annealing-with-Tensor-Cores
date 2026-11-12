@@ -1,4 +1,4 @@
-# Simulated Quantum Annealing with Tensor Cores
+# Accelerating Simulated Quantum Annealing with GPU and Tensor Cores
 
 **GPU-accelerated simulated quantum annealing for fully-connected Ising models**
 
