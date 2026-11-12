@@ -9,7 +9,7 @@ authors:
   - family-names: Hung
     given-names: Shih-Hao
 license: Apache-2.0
-repository-code: "https://github.com/Yi-Huaaa/Simulated-Quantum-Annealing-with-Tensor-Cores"
+repository-code: "https://github.com/Yi-Huaaa/Accelerating-Simulated-Quantum-Annealing-with-GPU-and-Tensor-Cores"
 preferred-citation:
   type: conference-paper
   title: "Accelerating Simulated Quantum Annealing with GPU and Tensor Cores"

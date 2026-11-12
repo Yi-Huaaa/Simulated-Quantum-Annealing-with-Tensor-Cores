@@ -49,8 +49,8 @@ tables.
 ## Quick start
 
 ```bash
-git clone https://github.com/Yi-Huaaa/Simulated-Quantum-Annealing-with-Tensor-Cores.git
-cd Simulated-Quantum-Annealing-with-Tensor-Cores
+git clone https://github.com/Yi-Huaaa/Accelerating-Simulated-Quantum-Annealing-with-GPU-and-Tensor-Cores.git
+cd Accelerating-Simulated-Quantum-Annealing-with-GPU-and-Tensor-Cores
 make            # builds build/sqa for the GPU of this machine
 make test       # optional: end-to-end tests on graphs with known maximum cuts
 make gset       # downloads the G-set graphs of the experiments into data/gset/
