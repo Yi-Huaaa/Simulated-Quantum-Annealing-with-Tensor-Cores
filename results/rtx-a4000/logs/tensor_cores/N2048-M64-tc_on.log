@@ -1,0 +1,27 @@
+graph        : /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G22 (2000 nodes, 19990 edges)
+device       : NVIDIA RTX A4000
+spins (N)    : 2048
+trotters (M) : 64
+block (M2)   : 128
+steps        : 100
+runs         : 10
+schedule     : gamma 8 -> 0, beta 0.0625 -> 16
+tensor cores : on
+seed         : 1
+
+ run     time [s]          cut  trotter  field error
+   0     0.057181        12978       22            0
+   1     0.058572        12936       15            0
+   2     0.058598        13002       42            0
+   3     0.058510        12962       53            0
+   4     0.058503        12992       51            0
+   5     0.058577        13013       41            0
+   6     0.058551        13011       36            0
+   7     0.058540        12991       35            0
+   8     0.058562        13038       58            0
+   9     0.058508        12978       32            0
+
+avg time [s] : 0.058410
+avg cut      : 12990.1
+best cut     : 13038
+field check  : PASSED (max error 0)

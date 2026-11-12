@@ -1,0 +1,405 @@
+start Thu Nov 12 04:13:07 AM CST 2026
+commit 3b0cf20
+[quality] G5: sqa --check --trotters 64 --block 128 --steps 1000 --runs 10 --beta1 64 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G5
+G5,800,19176,896,64,128,1000,on,10,0.199774,11541.7,11585,11631
+[quality] G9: sqa --check --trotters 64 --block 128 --steps 1000 --runs 10 --beta1 64 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G9
+G9,800,19176,896,64,128,1000,on,10,0.200999,1950.6,1986,2054
+[quality] G13: sqa --check --trotters 64 --block 128 --steps 1000 --runs 10 --beta1 64 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G13
+G13,800,1600,896,64,128,1000,on,10,0.207761,573.8,576,582
+[quality] G18: sqa --check --trotters 64 --block 128 --steps 1000 --runs 10 --beta1 64 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G18
+G18,800,4694,896,64,128,1000,on,10,0.204797,944.1,959,992
+[quality] G19: sqa --check --trotters 64 --block 128 --steps 1000 --runs 10 --beta1 64 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G19
+G19,800,4661,896,64,128,1000,on,10,0.205597,853.4,865,906
+[quality] G20: sqa --check --trotters 64 --block 128 --steps 1000 --runs 10 --beta1 64 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G20
+G20,800,4672,896,64,128,1000,on,10,0.206216,888.3,902,941
+[quality] G21: sqa --check --trotters 64 --block 128 --steps 1000 --runs 10 --beta1 64 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G21
+G21,800,4667,896,64,128,1000,on,10,0.206227,880,890,931
+[quality] G26: sqa --check --trotters 64 --block 128 --steps 1000 --runs 10 --beta1 64 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G26
+G26,2000,19990,2048,64,128,1000,on,10,0.504722,13133.4,13160,13328
+[quality] G31: sqa --check --trotters 64 --block 128 --steps 1000 --runs 10 --beta1 64 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G31
+G31,2000,19990,2048,64,128,1000,on,10,0.504827,3107.4,3150,3309
+[quality] G34: sqa --check --trotters 64 --block 128 --steps 1000 --runs 10 --beta1 64 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G34
+G34,2000,4000,2048,64,128,1000,on,10,0.523692,1361.8,1366,1384
+[quality] G38: sqa --check --trotters 64 --block 128 --steps 1000 --runs 10 --beta1 64 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G38
+G38,2000,11779,2048,64,128,1000,on,10,0.516479,7555.7,7567,7688
+[quality] G39: sqa --check --trotters 64 --block 128 --steps 1000 --runs 10 --beta1 64 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G39
+G39,2000,11778,2048,64,128,1000,on,10,0.513932,2251.7,2271,2408
+[quality] G41: sqa --check --trotters 64 --block 128 --steps 1000 --runs 10 --beta1 64 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G41
+G41,2000,11785,2048,64,128,1000,on,10,0.514334,2240.9,2291,2405
+[quality] G42: sqa --check --trotters 64 --block 128 --steps 1000 --runs 10 --beta1 64 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G42
+G42,2000,11779,2048,64,128,1000,on,10,0.515882,2319.7,2351,2481
+[quality] G43: sqa --check --trotters 64 --block 128 --steps 1000 --runs 10 --beta1 64 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G43
+G43,1000,9990,1024,64,128,1000,on,10,0.233257,6567.4,6584,6660
+[quality] G44: sqa --check --trotters 64 --block 128 --steps 1000 --runs 10 --beta1 64 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G44
+G44,1000,9990,1024,64,128,1000,on,10,0.236135,6568.3,6591,6650
+[quality] G47: sqa --check --trotters 64 --block 128 --steps 1000 --runs 10 --beta1 64 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G47
+G47,1000,9990,1024,64,128,1000,on,10,0.233378,6565.9,6587,6657
+[quality] G48: sqa --check --trotters 64 --block 128 --steps 1000 --runs 10 --beta1 64 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G48
+G48,3000,6000,3072,64,128,1000,on,10,0.773085,6000,6000,6000
+[quality] G49: sqa --check --trotters 64 --block 128 --steps 1000 --runs 10 --beta1 64 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G49
+G49,3000,6000,3072,64,128,1000,on,10,0.769583,5982,6000,6000
+[quality] G50: sqa --check --trotters 64 --block 128 --steps 1000 --runs 10 --beta1 64 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G50
+G50,3000,6000,3072,64,128,1000,on,10,0.834100,5876.4,5880,5880
+[quality] G51: sqa --check --trotters 64 --block 128 --steps 1000 --runs 10 --beta1 64 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G51
+G51,1000,5909,1024,64,128,1000,on,10,0.239176,3787.5,3797,3848
+[quality] G53: sqa --check --trotters 64 --block 128 --steps 1000 --runs 10 --beta1 64 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G53
+G53,1000,5914,1024,64,128,1000,on,10,0.241344,3794.7,3802,3850
+[quality] G54: sqa --check --trotters 64 --block 128 --steps 1000 --runs 10 --beta1 64 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G54
+G54,1000,5916,1024,64,128,1000,on,10,0.242586,3792.9,3798,3852
+[quality] G63: sqa --check --trotters 64 --block 128 --steps 1000 --runs 10 --beta1 64 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G63
+G63,7000,41459,7040,64,128,1000,on,10,2.061075,26529.1,26550,27045
+
+Cuts with M = 64, M2 = 128, 1000 steps, 10 runs per graph
+
+| Graph | Nodes | Edges | Best known | Avg. cut | Best cut | Avg. / known | Best / known |
+|---:|---:|---:|---:|---:|---:|---:|---:|
+| G5 | 800 | 19176 | 11631 | 11541.7 | 11585 | 99.23% | 99.60% |
+| G9 | 800 | 19176 | 2054 | 1950.6 | 1986 | 94.97% | 96.69% |
+| G13 | 800 | 1600 | 582 | 573.8 | 576 | 98.59% | 98.97% |
+| G18 | 800 | 4694 | 992 | 944.1 | 959 | 95.17% | 96.67% |
+| G19 | 800 | 4661 | 906 | 853.4 | 865 | 94.19% | 95.47% |
+| G20 | 800 | 4672 | 941 | 888.3 | 902 | 94.40% | 95.86% |
+| G21 | 800 | 4667 | 931 | 880 | 890 | 94.52% | 95.60% |
+| G26 | 2000 | 19990 | 13328 | 13133.4 | 13160 | 98.54% | 98.74% |
+| G31 | 2000 | 19990 | 3309 | 3107.4 | 3150 | 93.91% | 95.19% |
+| G34 | 2000 | 4000 | 1384 | 1361.8 | 1366 | 98.40% | 98.70% |
+| G38 | 2000 | 11779 | 7688 | 7555.7 | 7567 | 98.28% | 98.43% |
+| G39 | 2000 | 11778 | 2408 | 2251.7 | 2271 | 93.51% | 94.31% |
+| G41 | 2000 | 11785 | 2405 | 2240.9 | 2291 | 93.18% | 95.26% |
+| G42 | 2000 | 11779 | 2481 | 2319.7 | 2351 | 93.50% | 94.76% |
+| G43 | 1000 | 9990 | 6660 | 6567.4 | 6584 | 98.61% | 98.86% |
+| G44 | 1000 | 9990 | 6650 | 6568.3 | 6591 | 98.77% | 99.11% |
+| G47 | 1000 | 9990 | 6657 | 6565.9 | 6587 | 98.63% | 98.95% |
+| G48 | 3000 | 6000 | 6000 | 6000 | 6000 | 100.00% | 100.00% |
+| G49 | 3000 | 6000 | 6000 | 5982 | 6000 | 99.70% | 100.00% |
+| G50 | 3000 | 6000 | 5880 | 5876.4 | 5880 | 99.94% | 100.00% |
+| G51 | 1000 | 5909 | 3848 | 3787.5 | 3797 | 98.43% | 98.67% |
+| G53 | 1000 | 5914 | 3850 | 3794.7 | 3802 | 98.56% | 98.75% |
+| G54 | 1000 | 5916 | 3852 | 3792.9 | 3798 | 98.47% | 98.60% |
+| G63 | 7000 | 41459 | 27045 | 26529.1 | 26550 | 98.09% | 98.17% |
+
+Mean over 24 graphs: average cut 97.07%, best cut 97.72% of the best known cut (lowest: 93.18% and 94.31%)
+[block_size] N8192-M4-M2_32: sqa --check --size 8192 --trotters 4 --block 32 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,4,32,100,on,5,0.373735,5409.6,5418
+[block_size] N8192-M4-M2_64: sqa --check --size 8192 --trotters 4 --block 64 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,4,64,100,on,5,0.262302,5413.6,5428
+[block_size] N8192-M4-M2_128: sqa --check --size 8192 --trotters 4 --block 128 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,4,128,100,on,5,0.244800,5409.2,5412
+[block_size] N8192-M4-M2_256: sqa --check --size 8192 --trotters 4 --block 256 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,4,256,100,on,5,0.240400,5414,5432
+[block_size] N8192-M4-M2_512: sqa --check --size 8192 --trotters 4 --block 512 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,4,512,100,on,5,0.240614,5412.8,5430
+[block_size] N8192-M4-M2_1024: sqa --check --size 8192 --trotters 4 --block 1024 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,4,1024,100,on,5,0.262357,5411.2,5428
+[block_size] N8192-M8-M2_32: sqa --check --size 8192 --trotters 8 --block 32 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,8,32,100,on,5,0.315101,5408,5418
+[block_size] N8192-M8-M2_64: sqa --check --size 8192 --trotters 8 --block 64 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,8,64,100,on,5,0.260465,5408.4,5426
+[block_size] N8192-M8-M2_128: sqa --check --size 8192 --trotters 8 --block 128 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,8,128,100,on,5,0.242410,5407.6,5422
+[block_size] N8192-M8-M2_256: sqa --check --size 8192 --trotters 8 --block 256 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,8,256,100,on,5,0.240337,5410.4,5424
+[block_size] N8192-M8-M2_512: sqa --check --size 8192 --trotters 8 --block 512 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,8,512,100,on,5,0.234903,5410,5420
+[block_size] N8192-M8-M2_1024: sqa --check --size 8192 --trotters 8 --block 1024 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,8,1024,100,on,5,0.263470,5410,5422
+[block_size] N8192-M16-M2_32: sqa --check --size 8192 --trotters 16 --block 32 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,16,32,100,on,5,0.319278,5384,5396
+[block_size] N8192-M16-M2_64: sqa --check --size 8192 --trotters 16 --block 64 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,16,64,100,on,5,0.262760,5384.4,5402
+[block_size] N8192-M16-M2_128: sqa --check --size 8192 --trotters 16 --block 128 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,16,128,100,on,5,0.245590,5334.4,5356
+[block_size] N8192-M16-M2_256: sqa --check --size 8192 --trotters 16 --block 256 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,16,256,100,on,5,0.239654,5342.4,5360
+[block_size] N8192-M16-M2_512: sqa --check --size 8192 --trotters 16 --block 512 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,16,512,100,on,5,0.235618,5374,5384
+[block_size] N8192-M16-M2_1024: sqa --check --size 8192 --trotters 16 --block 1024 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,16,1024,100,on,5,0.263244,5386,5396
+[block_size] N8192-M32-M2_32: sqa --check --size 8192 --trotters 32 --block 32 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,32,32,100,on,5,0.329369,5424.8,5430
+[block_size] N8192-M32-M2_64: sqa --check --size 8192 --trotters 32 --block 64 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,32,64,100,on,5,0.264086,5421.2,5430
+[block_size] N8192-M32-M2_128: sqa --check --size 8192 --trotters 32 --block 128 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,32,128,100,on,5,0.241147,5420.8,5424
+[block_size] N8192-M32-M2_256: sqa --check --size 8192 --trotters 32 --block 256 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,32,256,100,on,5,0.242407,5417.6,5420
+[block_size] N8192-M32-M2_512: sqa --check --size 8192 --trotters 32 --block 512 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,32,512,100,on,5,0.239020,5424,5436
+[block_size] N8192-M32-M2_1024: sqa --check --size 8192 --trotters 32 --block 1024 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,32,1024,100,on,5,0.257958,5422,5436
+[block_size] N8192-M64-M2_32: sqa --check --size 8192 --trotters 64 --block 32 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,64,32,100,on,5,0.363598,5311.2,5326
+[block_size] N8192-M64-M2_64: sqa --check --size 8192 --trotters 64 --block 64 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,64,64,100,on,5,0.284820,5302.4,5326
+[block_size] N8192-M64-M2_128: sqa --check --size 8192 --trotters 64 --block 128 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,64,128,100,on,5,0.264529,5307.6,5320
+[block_size] N8192-M64-M2_256: sqa --check --size 8192 --trotters 64 --block 256 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,64,256,100,on,5,0.245624,5306.4,5326
+[block_size] N8192-M64-M2_512: sqa --check --size 8192 --trotters 64 --block 512 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,64,512,100,on,5,0.255492,5305.2,5318
+[block_size] N8192-M64-M2_1024: sqa --check --size 8192 --trotters 64 --block 1024 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,64,1024,100,on,5,0.448209,5314,5320
+[block_size] N8192-M128-M2_32: sqa --check --size 8192 --trotters 128 --block 32 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,128,32,100,on,5,0.768218,5318,5328
+[block_size] N8192-M128-M2_64: sqa --check --size 8192 --trotters 128 --block 64 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,128,64,100,on,5,0.479374,5313.6,5316
+[block_size] N8192-M128-M2_128: sqa --check --size 8192 --trotters 128 --block 128 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,128,128,100,on,5,0.376721,5317.2,5328
+[block_size] N8192-M128-M2_256: sqa --check --size 8192 --trotters 128 --block 256 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,128,256,100,on,5,0.304896,5308,5316
+[block_size] N8192-M128-M2_512: sqa --check --size 8192 --trotters 128 --block 512 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,128,512,100,on,5,0.297250,5312.8,5316
+[block_size] N8192-M128-M2_1024: sqa --check --size 8192 --trotters 128 --block 1024 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,128,1024,100,on,5,0.662339,5317.6,5320
+[block_size] N8192-M256-M2_32: sqa --check --size 8192 --trotters 256 --block 32 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,256,32,100,on,5,1.422191,5323.2,5328
+[block_size] N8192-M256-M2_64: sqa --check --size 8192 --trotters 256 --block 64 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,256,64,100,on,5,0.813618,5320.4,5328
+[block_size] N8192-M256-M2_128: sqa --check --size 8192 --trotters 256 --block 128 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,256,128,100,on,5,0.548357,5317.6,5330
+[block_size] N8192-M256-M2_256: sqa --check --size 8192 --trotters 256 --block 256 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,256,256,100,on,5,0.422251,5321.2,5338
+[block_size] N8192-M256-M2_512: sqa --check --size 8192 --trotters 256 --block 512 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,256,512,100,on,5,0.550969,5316.4,5322
+[block_size] N8192-M256-M2_1024: sqa --check --size 8192 --trotters 256 --block 1024 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,256,1024,100,on,5,1.285009,5326.4,5344
+[block_size] N8192-M512-M2_32: sqa --check --size 8192 --trotters 512 --block 32 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,512,32,100,on,5,2.595475,5319.6,5322
+[block_size] N8192-M512-M2_64: sqa --check --size 8192 --trotters 512 --block 64 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,512,64,100,on,5,1.435348,5324.8,5332
+[block_size] N8192-M512-M2_128: sqa --check --size 8192 --trotters 512 --block 128 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,512,128,100,on,5,0.912021,5326,5342
+[block_size] N8192-M512-M2_256: sqa --check --size 8192 --trotters 512 --block 256 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,512,256,100,on,5,0.805247,5328,5338
+[block_size] N8192-M512-M2_512: sqa --check --size 8192 --trotters 512 --block 512 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,512,512,100,on,5,1.060257,5323.2,5326
+[block_size] N8192-M512-M2_1024: sqa --check --size 8192 --trotters 512 --block 1024 --steps 100 --runs 5 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,512,1024,100,on,5,2.386848,5323.6,5328
+
+Annealing time [s] for N = 8192, 100 steps, mean of 5 runs (fastest block size in bold)
+
+| M | M2=32 | M2=64 | M2=128 | M2=256 | M2=512 | M2=1024 |
+|---:|---:|---:|---:|---:|---:|---:|
+| 4 | 0.374 | 0.262 | 0.245 | **0.240** | 0.241 | 0.262 |
+| 8 | 0.315 | 0.260 | 0.242 | 0.240 | **0.235** | 0.263 |
+| 16 | 0.319 | 0.263 | 0.246 | 0.240 | **0.236** | 0.263 |
+| 32 | 0.329 | 0.264 | 0.241 | 0.242 | **0.239** | 0.258 |
+| 64 | 0.364 | 0.285 | 0.265 | **0.246** | 0.255 | 0.448 |
+| 128 | 0.768 | 0.479 | 0.377 | 0.305 | **0.297** | 0.662 |
+| 256 | 1.422 | 0.814 | 0.548 | **0.422** | 0.551 | 1.285 |
+| 512 | 2.595 | 1.435 | 0.912 | **0.805** | 1.060 | 2.387 |
+[tensor_cores] N1024-M4-tc_on: sqa --check --size 1024 --trotters 4 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G1
+G1,800,19176,1024,4,128,100,on,10,0.023824,11489.6,11518
+[tensor_cores] N1024-M4-tc_off: sqa --check --size 1024 --trotters 4 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G1
+G1,800,19176,1024,4,128,100,off,10,0.024348,11489.6,11518
+[tensor_cores] N1024-M8-tc_on: sqa --check --size 1024 --trotters 8 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G1
+G1,800,19176,1024,8,128,100,on,10,0.023816,11490.7,11518
+[tensor_cores] N1024-M8-tc_off: sqa --check --size 1024 --trotters 8 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G1
+G1,800,19176,1024,8,128,100,off,10,0.024673,11490.7,11518
+[tensor_cores] N1024-M16-tc_on: sqa --check --size 1024 --trotters 16 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G1
+G1,800,19176,1024,16,128,100,on,10,0.024335,11494.4,11512
+[tensor_cores] N1024-M16-tc_off: sqa --check --size 1024 --trotters 16 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G1
+G1,800,19176,1024,16,128,100,off,10,0.028156,11494.4,11512
+[tensor_cores] N1024-M32-tc_on: sqa --check --size 1024 --trotters 32 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G1
+G1,800,19176,1024,32,128,100,on,10,0.024634,11509.8,11530
+[tensor_cores] N1024-M32-tc_off: sqa --check --size 1024 --trotters 32 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G1
+G1,800,19176,1024,32,128,100,off,10,0.028535,11509.8,11530
+[tensor_cores] N1024-M64-tc_on: sqa --check --size 1024 --trotters 64 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G1
+G1,800,19176,1024,64,128,100,on,10,0.025072,11464.5,11498
+[tensor_cores] N1024-M64-tc_off: sqa --check --size 1024 --trotters 64 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G1
+G1,800,19176,1024,64,128,100,off,10,0.030174,11464.5,11498
+[tensor_cores] N1024-M128-tc_on: sqa --check --size 1024 --trotters 128 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G1
+G1,800,19176,1024,128,128,100,on,10,0.026772,11401.4,11429
+[tensor_cores] N1024-M128-tc_off: sqa --check --size 1024 --trotters 128 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G1
+G1,800,19176,1024,128,128,100,off,10,0.031446,11401.4,11429
+[tensor_cores] N1024-M256-tc_on: sqa --check --size 1024 --trotters 256 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G1
+G1,800,19176,1024,256,128,100,on,10,0.029938,11409.5,11471
+[tensor_cores] N1024-M256-tc_off: sqa --check --size 1024 --trotters 256 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G1
+G1,800,19176,1024,256,128,100,off,10,0.037101,11409.5,11471
+[tensor_cores] N1024-M512-tc_on: sqa --check --size 1024 --trotters 512 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G1
+G1,800,19176,1024,512,128,100,on,10,0.040562,11426,11471
+[tensor_cores] N1024-M512-tc_off: sqa --check --size 1024 --trotters 512 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G1
+G1,800,19176,1024,512,128,100,off,10,0.051082,11426,11471
+[tensor_cores] N2048-M4-tc_on: sqa --check --size 2048 --trotters 4 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G22
+G22,2000,19990,2048,4,128,100,on,10,0.054425,13070.1,13104
+[tensor_cores] N2048-M4-tc_off: sqa --check --size 2048 --trotters 4 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G22
+G22,2000,19990,2048,4,128,100,off,10,0.064644,13072.3,13104
+[tensor_cores] N2048-M8-tc_on: sqa --check --size 2048 --trotters 8 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G22
+G22,2000,19990,2048,8,128,100,on,10,0.053854,13084.5,13120
+[tensor_cores] N2048-M8-tc_off: sqa --check --size 2048 --trotters 8 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G22
+G22,2000,19990,2048,8,128,100,off,10,0.056190,13084.5,13120
+[tensor_cores] N2048-M16-tc_on: sqa --check --size 2048 --trotters 16 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G22
+G22,2000,19990,2048,16,128,100,on,10,0.055269,13062.6,13091
+[tensor_cores] N2048-M16-tc_off: sqa --check --size 2048 --trotters 16 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G22
+G22,2000,19990,2048,16,128,100,off,10,0.062724,13062.6,13091
+[tensor_cores] N2048-M32-tc_on: sqa --check --size 2048 --trotters 32 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G22
+G22,2000,19990,2048,32,128,100,on,10,0.054867,13116.1,13159
+[tensor_cores] N2048-M32-tc_off: sqa --check --size 2048 --trotters 32 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G22
+G22,2000,19990,2048,32,128,100,off,10,0.061763,13116.1,13159
+[tensor_cores] N2048-M64-tc_on: sqa --check --size 2048 --trotters 64 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G22
+G22,2000,19990,2048,64,128,100,on,10,0.058410,12990.1,13038
+[tensor_cores] N2048-M64-tc_off: sqa --check --size 2048 --trotters 64 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G22
+G22,2000,19990,2048,64,128,100,off,10,0.066227,12990.1,13038
+[tensor_cores] N2048-M128-tc_on: sqa --check --size 2048 --trotters 128 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G22
+G22,2000,19990,2048,128,128,100,on,10,0.061448,12924.5,12943
+[tensor_cores] N2048-M128-tc_off: sqa --check --size 2048 --trotters 128 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G22
+G22,2000,19990,2048,128,128,100,off,10,0.077203,12924.5,12943
+[tensor_cores] N2048-M256-tc_on: sqa --check --size 2048 --trotters 256 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G22
+G22,2000,19990,2048,256,128,100,on,10,0.074919,12934.6,12958
+[tensor_cores] N2048-M256-tc_off: sqa --check --size 2048 --trotters 256 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G22
+G22,2000,19990,2048,256,128,100,off,10,0.090749,12934.6,12958
+[tensor_cores] N2048-M512-tc_on: sqa --check --size 2048 --trotters 512 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G22
+G22,2000,19990,2048,512,128,100,on,10,0.109641,12946,12987
+[tensor_cores] N2048-M512-tc_off: sqa --check --size 2048 --trotters 512 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G22
+G22,2000,19990,2048,512,128,100,off,10,0.135052,12946,12987
+[tensor_cores] N4096-M4-tc_on: sqa --check --size 4096 --trotters 4 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G48
+G48,3000,6000,4096,4,128,100,on,10,0.100887,6000,6000
+[tensor_cores] N4096-M4-tc_off: sqa --check --size 4096 --trotters 4 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G48
+G48,3000,6000,4096,4,128,100,off,10,0.101909,6000,6000
+[tensor_cores] N4096-M8-tc_on: sqa --check --size 4096 --trotters 8 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G48
+G48,3000,6000,4096,8,128,100,on,10,0.098686,5989.8,6000
+[tensor_cores] N4096-M8-tc_off: sqa --check --size 4096 --trotters 8 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G48
+G48,3000,6000,4096,8,128,100,off,10,0.101016,5990,6000
+[tensor_cores] N4096-M16-tc_on: sqa --check --size 4096 --trotters 16 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G48
+G48,3000,6000,4096,16,128,100,on,10,0.102666,6000,6000
+[tensor_cores] N4096-M16-tc_off: sqa --check --size 4096 --trotters 16 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G48
+G48,3000,6000,4096,16,128,100,off,10,0.128553,6000,6000
+[tensor_cores] N4096-M32-tc_on: sqa --check --size 4096 --trotters 32 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G48
+G48,3000,6000,4096,32,128,100,on,10,0.102915,6000,6000
+[tensor_cores] N4096-M32-tc_off: sqa --check --size 4096 --trotters 32 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G48
+G48,3000,6000,4096,32,128,100,off,10,0.116131,6000,6000
+[tensor_cores] N4096-M64-tc_on: sqa --check --size 4096 --trotters 64 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G48
+G48,3000,6000,4096,64,128,100,on,10,0.105504,5790.8,5834
+[tensor_cores] N4096-M64-tc_off: sqa --check --size 4096 --trotters 64 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G48
+G48,3000,6000,4096,64,128,100,off,10,0.125837,5790.8,5834
+[tensor_cores] N4096-M128-tc_on: sqa --check --size 4096 --trotters 128 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G48
+G48,3000,6000,4096,128,128,100,on,10,0.124419,5888.8,5986
+[tensor_cores] N4096-M128-tc_off: sqa --check --size 4096 --trotters 128 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G48
+G48,3000,6000,4096,128,128,100,off,10,0.152349,5888.8,5986
+[tensor_cores] N4096-M256-tc_on: sqa --check --size 4096 --trotters 256 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G48
+G48,3000,6000,4096,256,128,100,on,10,0.180441,5924.6,5978
+[tensor_cores] N4096-M256-tc_off: sqa --check --size 4096 --trotters 256 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G48
+G48,3000,6000,4096,256,128,100,off,10,0.221973,5924.6,5978
+[tensor_cores] N4096-M512-tc_on: sqa --check --size 4096 --trotters 512 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G48
+G48,3000,6000,4096,512,128,100,on,10,0.295255,5958.6,6000
+[tensor_cores] N4096-M512-tc_off: sqa --check --size 4096 --trotters 512 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G48
+G48,3000,6000,4096,512,128,100,off,10,0.359987,5958.6,6000
+[tensor_cores] N8192-M4-tc_on: sqa --check --size 8192 --trotters 4 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,4,128,100,on,10,0.241510,5409.4,5432
+[tensor_cores] N8192-M4-tc_off: sqa --check --size 8192 --trotters 4 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,4,128,100,off,10,0.243688,5409.8,5432
+[tensor_cores] N8192-M8-tc_on: sqa --check --size 8192 --trotters 8 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,8,128,100,on,10,0.236337,5402,5422
+[tensor_cores] N8192-M8-tc_off: sqa --check --size 8192 --trotters 8 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,8,128,100,off,10,0.241150,5402,5422
+[tensor_cores] N8192-M16-tc_on: sqa --check --size 8192 --trotters 16 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,16,128,100,on,10,0.238212,5337.2,5352
+[tensor_cores] N8192-M16-tc_off: sqa --check --size 8192 --trotters 16 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,16,128,100,off,10,0.314268,5339.6,5352
+[tensor_cores] N8192-M32-tc_on: sqa --check --size 8192 --trotters 32 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,32,128,100,on,10,0.236131,5420.2,5426
+[tensor_cores] N8192-M32-tc_off: sqa --check --size 8192 --trotters 32 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,32,128,100,off,10,0.279553,5420,5428
+[tensor_cores] N8192-M64-tc_on: sqa --check --size 8192 --trotters 64 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,64,128,100,on,10,0.256508,5304.2,5320
+[tensor_cores] N8192-M64-tc_off: sqa --check --size 8192 --trotters 64 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,64,128,100,off,10,0.451941,5304.6,5320
+[tensor_cores] N8192-M128-tc_on: sqa --check --size 8192 --trotters 128 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,128,128,100,on,10,0.371050,5313.6,5328
+[tensor_cores] N8192-M128-tc_off: sqa --check --size 8192 --trotters 128 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,128,128,100,off,10,0.443673,5313.6,5328
+[tensor_cores] N8192-M256-tc_on: sqa --check --size 8192 --trotters 256 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,256,128,100,on,10,0.544801,5316.8,5330
+[tensor_cores] N8192-M256-tc_off: sqa --check --size 8192 --trotters 256 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,256,128,100,off,10,0.698345,5316.8,5330
+[tensor_cores] N8192-M512-tc_on: sqa --check --size 8192 --trotters 512 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,512,128,100,on,10,0.912298,5322.6,5342
+[tensor_cores] N8192-M512-tc_off: sqa --check --size 8192 --trotters 512 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G65
+G65,8000,16000,8192,512,128,100,off,10,1.126817,5322.8,5342
+[tensor_cores] N16384-M4-tc_on: sqa --check --size 16384 --trotters 4 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G77
+G77,14000,28000,16384,4,128,100,on,10,0.531643,9674.4,9698
+[tensor_cores] N16384-M4-tc_off: sqa --check --size 16384 --trotters 4 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G77
+G77,14000,28000,16384,4,128,100,off,10,0.550047,9674.2,9698
+[tensor_cores] N16384-M8-tc_on: sqa --check --size 16384 --trotters 8 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G77
+G77,14000,28000,16384,8,128,100,on,10,0.535294,9671,9694
+[tensor_cores] N16384-M8-tc_off: sqa --check --size 16384 --trotters 8 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G77
+G77,14000,28000,16384,8,128,100,off,10,0.634798,9671,9694
+[tensor_cores] N16384-M16-tc_on: sqa --check --size 16384 --trotters 16 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G77
+G77,14000,28000,16384,16,128,100,on,10,0.551022,9552.6,9580
+[tensor_cores] N16384-M16-tc_off: sqa --check --size 16384 --trotters 16 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G77
+G77,14000,28000,16384,16,128,100,off,10,0.668360,9551.8,9580
+[tensor_cores] N16384-M32-tc_on: sqa --check --size 16384 --trotters 32 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G77
+G77,14000,28000,16384,32,128,100,on,10,0.610628,9684,9702
+[tensor_cores] N16384-M32-tc_off: sqa --check --size 16384 --trotters 32 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G77
+G77,14000,28000,16384,32,128,100,off,10,0.694257,9684,9702
+[tensor_cores] N16384-M64-tc_on: sqa --check --size 16384 --trotters 64 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G77
+G77,14000,28000,16384,64,128,100,on,10,0.751878,9469.6,9504
+[tensor_cores] N16384-M64-tc_off: sqa --check --size 16384 --trotters 64 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G77
+G77,14000,28000,16384,64,128,100,off,10,0.843742,9469.6,9504
+[tensor_cores] N16384-M128-tc_on: sqa --check --size 16384 --trotters 128 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G77
+G77,14000,28000,16384,128,128,100,on,10,1.073640,9479.2,9506
+[tensor_cores] N16384-M128-tc_off: sqa --check --size 16384 --trotters 128 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G77
+G77,14000,28000,16384,128,128,100,off,10,1.319552,9479.2,9506
+[tensor_cores] N16384-M256-tc_on: sqa --check --size 16384 --trotters 256 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G77
+G77,14000,28000,16384,256,128,100,on,10,1.714115,9493.4,9516
+[tensor_cores] N16384-M256-tc_off: sqa --check --size 16384 --trotters 256 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G77
+G77,14000,28000,16384,256,128,100,off,10,2.212258,9493.4,9516
+[tensor_cores] N16384-M512-tc_on: sqa --check --size 16384 --trotters 512 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G77
+G77,14000,28000,16384,512,128,100,on,10,3.029131,9496.2,9516
+[tensor_cores] N16384-M512-tc_off: sqa --check --size 16384 --trotters 512 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G77
+G77,14000,28000,16384,512,128,100,off,10,4.097149,9496.2,9516
+[tensor_cores] N32768-M4-tc_on: sqa --check --size 32768 --trotters 4 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G81
+G81,20000,40000,32768,4,128,100,on,10,1.316782,13670.2,13696
+[tensor_cores] N32768-M4-tc_off: sqa --check --size 32768 --trotters 4 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G81
+G81,20000,40000,32768,4,128,100,off,10,1.329403,13670.2,13696
+[tensor_cores] N32768-M8-tc_on: sqa --check --size 32768 --trotters 8 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G81
+G81,20000,40000,32768,8,128,100,on,10,1.364240,13672.2,13694
+[tensor_cores] N32768-M8-tc_off: sqa --check --size 32768 --trotters 8 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G81
+G81,20000,40000,32768,8,128,100,off,10,1.679665,13672,13694
+[tensor_cores] N32768-M16-tc_on: sqa --check --size 32768 --trotters 16 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G81
+G81,20000,40000,32768,16,128,100,on,10,1.483544,13502.6,13540
+[tensor_cores] N32768-M16-tc_off: sqa --check --size 32768 --trotters 16 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G81
+G81,20000,40000,32768,16,128,100,off,10,1.763545,13502.6,13540
+[tensor_cores] N32768-M32-tc_on: sqa --check --size 32768 --trotters 32 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G81
+G81,20000,40000,32768,32,128,100,on,10,1.760289,13695.4,13716
+[tensor_cores] N32768-M32-tc_off: sqa --check --size 32768 --trotters 32 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G81
+G81,20000,40000,32768,32,128,100,off,10,1.856439,13695.4,13716
+[tensor_cores] N32768-M64-tc_on: sqa --check --size 32768 --trotters 64 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G81
+G81,20000,40000,32768,64,128,100,on,10,2.283495,13390,13412
+[tensor_cores] N32768-M64-tc_off: sqa --check --size 32768 --trotters 64 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G81
+G81,20000,40000,32768,64,128,100,off,10,2.580459,13390,13412
+[tensor_cores] N32768-M128-tc_on: sqa --check --size 32768 --trotters 128 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G81
+G81,20000,40000,32768,128,128,100,on,10,3.470137,13403.8,13426
+[tensor_cores] N32768-M128-tc_off: sqa --check --size 32768 --trotters 128 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G81
+G81,20000,40000,32768,128,128,100,off,10,4.329493,13403.8,13426
+[tensor_cores] N32768-M256-tc_on: sqa --check --size 32768 --trotters 256 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G81
+G81,20000,40000,32768,256,128,100,on,10,5.879269,13413.4,13442
+[tensor_cores] N32768-M256-tc_off: sqa --check --size 32768 --trotters 256 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G81
+G81,20000,40000,32768,256,128,100,off,10,7.795574,13413.4,13442
+[tensor_cores] N32768-M512-tc_on: sqa --check --size 32768 --trotters 512 --block 128 --steps 100 --runs 10 /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G81
+G81,20000,40000,32768,512,128,100,on,10,10.989322,13414.8,13438
+[tensor_cores] N32768-M512-tc_off: sqa --check --size 32768 --trotters 512 --block 128 --steps 100 --runs 10 --no-tensor-cores /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G81
+G81,20000,40000,32768,512,128,100,off,10,14.497211,13414.8,13438
+
+Annealing time with Tensor Cores [s] (100 steps, mean of 10 runs)
+
+| N | M=4 | M=8 | M=16 | M=32 | M=64 | M=128 | M=256 | M=512 |
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1024 | 0.024 | 0.024 | 0.024 | 0.025 | 0.025 | 0.027 | 0.030 | 0.041 |
+| 2048 | 0.054 | 0.054 | 0.055 | 0.055 | 0.058 | 0.061 | 0.075 | 0.110 |
+| 4096 | 0.101 | 0.099 | 0.103 | 0.103 | 0.106 | 0.124 | 0.180 | 0.295 |
+| 8192 | 0.242 | 0.236 | 0.238 | 0.236 | 0.257 | 0.371 | 0.545 | 0.912 |
+| 16384 | 0.532 | 0.535 | 0.551 | 0.611 | 0.752 | 1.074 | 1.714 | 3.029 |
+| 32768 | 1.317 | 1.364 | 1.484 | 1.760 | 2.283 | 3.470 | 5.879 | 10.989 |
+
+Speedup from Tensor Cores (time on CUDA cores / time on Tensor Cores)
+
+| N | M=4 | M=8 | M=16 | M=32 | M=64 | M=128 | M=256 | M=512 |
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1024 | 1.02x | 1.04x | 1.16x | 1.16x | 1.20x | 1.17x | 1.24x | 1.26x |
+| 2048 | 1.19x | 1.04x | 1.13x | 1.13x | 1.13x | 1.26x | 1.21x | 1.23x |
+| 4096 | 1.01x | 1.02x | 1.25x | 1.13x | 1.19x | 1.22x | 1.23x | 1.22x |
+| 8192 | 1.01x | 1.02x | 1.32x | 1.18x | 1.76x | 1.20x | 1.28x | 1.24x |
+| 16384 | 1.03x | 1.19x | 1.21x | 1.14x | 1.12x | 1.23x | 1.29x | 1.35x |
+| 32768 | 1.01x | 1.23x | 1.19x | 1.05x | 1.13x | 1.25x | 1.33x | 1.32x |
+end Thu Nov 12 04:33:39 AM CST 2026
