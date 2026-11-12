@@ -2,17 +2,21 @@
 # Section 4.5 / Fig. 9 of the paper: solution quality on the G-set graphs of
 # Table 2, relative to their best known cuts, with 1000 annealing steps.
 #
+# The paper tuned the schedule per experiment. Here a single setting is used
+# for every graph: M = 64 and beta rising to 64 at the end, which gave the best
+# cuts of the M and beta0/beta1 values we tried.
+#
 # Usage: scripts/run_quality.sh [G43 G48 ...]
-# Settings: TROTTERS, BLOCK, STEPS, RUNS, plus extra solver options in OPTIONS
-# (for example OPTIONS="--beta1 8"); see the README.
+# Settings: TROTTERS, BLOCK, STEPS, RUNS, plus extra solver options in OPTIONS;
+# see the README.
 set -euo pipefail
 source "$(dirname "$0")/common.sh"
 
-TROTTERS=${TROTTERS:-16}
+TROTTERS=${TROTTERS:-64}
 BLOCK=${BLOCK:-128}
 STEPS=${STEPS:-1000}
 RUNS=${RUNS:-10}
-OPTIONS=${OPTIONS:-}
+OPTIONS=${OPTIONS:---beta1 64}
 
 # Best known cuts, as listed in Table 2 of the paper.
 declare -A BEST_KNOWN=(

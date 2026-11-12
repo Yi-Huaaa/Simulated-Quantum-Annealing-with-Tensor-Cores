@@ -33,14 +33,20 @@ init_csv() {
 }
 
 # run_case <experiment> <label> <solver arguments...>
-# Runs the solver, keeps its output in $RESULTS_DIR/logs/<experiment>/<label>.log
-# and prints one CSV row (see CSV_HEADER).
+# Runs the solver with --check, keeps its output in
+# $RESULTS_DIR/logs/<experiment>/<label>.log and prints one CSV row (see
+# CSV_HEADER). The check runs after the timed annealing loop, so it does not
+# change the measured times; if it fails, the script stops.
 run_case() {
     local experiment=$1 label=$2
     shift 2
     local log="$RESULTS_DIR/logs/$experiment/$label.log"
     mkdir -p "$(dirname "$log")"
-    "$SQA" "$@" > "$log"
+    echo "[$experiment] $label: sqa --check $*" >&2
+    if ! "$SQA" --check "$@" > "$log"; then
+        echo "error: run failed, see $log" >&2
+        exit 1
+    fi
     parse_log "$log"
 }
 
