@@ -1,4 +1,4 @@
-graph        : /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G5 (800 nodes, 19176 edges)
+graph        : data/gset/G5 (800 nodes, 19176 edges)
 device       : NVIDIA RTX A4000
 spins (N)    : 896
 trotters (M) : 64

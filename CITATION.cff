@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite the paper below."
-title: "Simulated Quantum Annealing with Tensor Cores"
+title: "Accelerating Simulated Quantum Annealing with GPU and Tensor Cores"
 authors:
   - family-names: Chung
     given-names: Yi-Hua

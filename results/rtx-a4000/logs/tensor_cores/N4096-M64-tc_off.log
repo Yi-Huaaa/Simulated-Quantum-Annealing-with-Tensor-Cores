@@ -1,4 +1,4 @@
-graph        : /home/ychung79/work/Simulated-Quantum-Annealing-with-Tensor-Cores/data/gset/G48 (3000 nodes, 6000 edges)
+graph        : data/gset/G48 (3000 nodes, 6000 edges)
 device       : NVIDIA RTX A4000
 spins (N)    : 4096
 trotters (M) : 64
