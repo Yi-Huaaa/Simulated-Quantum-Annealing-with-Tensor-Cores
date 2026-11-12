@@ -136,6 +136,7 @@ int main(int argc, char** argv) {
         std::printf("trotters (M) : %d\n", params.trotters);
         std::printf("block (M2)   : %d\n", params.block);
         std::printf("steps        : %d\n", params.steps);
+        std::printf("runs         : %d\n", runs);
         std::printf("schedule     : gamma %g -> 0, beta %g -> %g\n", params.gamma0, params.beta0, params.beta1);
         std::printf("tensor cores : %s\n", params.tensor_cores ? "on" : "off");
         std::printf("seed         : %llu\n\n", static_cast<unsigned long long>(seed));

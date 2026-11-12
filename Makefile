@@ -9,7 +9,7 @@ TARGET    := $(BUILD_DIR)/sqa
 SRCS      := src/main.cu src/sqa.cu src/graph.cpp
 HEADERS   := $(wildcard src/*.h)
 
-.PHONY: all test gset bench clean
+.PHONY: all test gset clean
 
 all: $(TARGET)
 
@@ -22,9 +22,6 @@ test: $(TARGET)
 
 gset:
 	./scripts/download_gset.sh
-
-bench: $(TARGET)
-	./scripts/benchmark.sh $(TARGET)
 
 clean:
 	rm -rf $(BUILD_DIR)
