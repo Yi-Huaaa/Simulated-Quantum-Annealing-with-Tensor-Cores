@@ -196,7 +196,10 @@ SqaSolver::SqaSolver(const Graph& graph, const SqaParams& params) : graph_(graph
     CUDA_CHECK(cudaEventCreate(&stop_));
     CUBLAS_CHECK(cublasCreate(&cublas_));
     CUBLAS_CHECK(cublasSetStream(cublas_, stream_));
+    // FP16 x FP16 -> FP32 GEMMs run on the Tensor Cores by default. The math
+    // mode alone does not prevent that; the pedantic compute type does.
     CUBLAS_CHECK(cublasSetMathMode(cublas_, p.tensor_cores ? CUBLAS_DEFAULT_MATH : CUBLAS_PEDANTIC_MATH));
+    compute_type_ = p.tensor_cores ? CUBLAS_COMPUTE_32F : CUBLAS_COMPUTE_32F_PEDANTIC;
 
     CUDA_CHECK(cudaMalloc(&d_couplings_, nn * sizeof(__half)));
     CUDA_CHECK(cudaMalloc(&d_spins_, nm * sizeof(__half)));
@@ -206,8 +209,8 @@ SqaSolver::SqaSolver(const Graph& graph, const SqaParams& params) : graph_(graph
 
     init_couplings();
 
-    // Warm up the kernels and cuBLAS so that the first timed run is not slower.
-    run(0, false);
+    // Load the kernels and initialise cuBLAS so that the first timed run is not slower.
+    warm_up();
 }
 
 SqaSolver::~SqaSolver() {
@@ -251,14 +254,12 @@ void SqaSolver::compute_fields(float* out) {
     const float one = 1.0f, zero = 0.0f;
     CUBLAS_CHECK(cublasGemmEx(cublas_, CUBLAS_OP_N, CUBLAS_OP_N, n_, params_.trotters, n_, &one,
                               d_couplings_, CUDA_R_16F, n_, d_spins_, CUDA_R_16F, n_, &zero, out, CUDA_R_32F, n_,
-                              CUBLAS_COMPUTE_32F, CUBLAS_GEMM_DEFAULT));
+                              compute_type_, CUBLAS_GEMM_DEFAULT));
 }
 
 void SqaSolver::anneal(uint64_t seed) {
     const SqaParams& p = params_;
     const int trotters = p.trotters;
-    const SweepKernel sweep = sweep_kernel_for(p.block);
-    const float one = 1.0f;
 
     for (int step = 0; step < p.steps; ++step) {
         const double progress = static_cast<double>(step) / p.steps;
@@ -272,17 +273,33 @@ void SqaSolver::anneal(uint64_t seed) {
         const float beta_eff = static_cast<float>(2.0 * trotters * beta);
 
         for (int start = 0; start < n_; start += p.block) {
-            sweep<<<trotters, p.block, 0, stream_>>>(d_couplings_, d_fields_, d_spins_, d_flips_, n_,
-                                                     graph_.num_nodes, trotters, start, beta_eff,
-                                                     static_cast<float>(j_perp), seed, step + 1);
-            // h += J[:, start:start+block] * flips  (N x M += N x M_2 * M_2 x M)
-            CUBLAS_CHECK(cublasGemmEx(cublas_, CUBLAS_OP_N, CUBLAS_OP_N, n_, trotters, p.block, &one,
-                                      d_couplings_ + static_cast<size_t>(start) * n_, CUDA_R_16F, n_, d_flips_,
-                                      CUDA_R_16F, p.block, &one, d_fields_, CUDA_R_32F, n_, CUBLAS_COMPUTE_32F,
-                                      CUBLAS_GEMM_DEFAULT));
+            sweep_block(start, beta_eff, static_cast<float>(j_perp), seed, step + 1);
         }
     }
     CUDA_CHECK(cudaGetLastError());
+}
+
+void SqaSolver::sweep_block(int start, float beta_eff, float j_perp, uint64_t seed, uint64_t rng_offset) {
+    const SqaParams& p = params_;
+    const float one = 1.0f;
+    sweep_kernel_for(p.block)<<<p.trotters, p.block, 0, stream_>>>(d_couplings_, d_fields_, d_spins_, d_flips_, n_,
+                                                                   graph_.num_nodes, p.trotters, start, beta_eff,
+                                                                   j_perp, seed, rng_offset);
+    // h += J[:, start:start+block] * flips  (N x M += N x M_2 * M_2 x M)
+    CUBLAS_CHECK(cublasGemmEx(cublas_, CUBLAS_OP_N, CUBLAS_OP_N, n_, p.trotters, p.block, &one,
+                              d_couplings_ + static_cast<size_t>(start) * n_, CUDA_R_16F, n_, d_flips_, CUDA_R_16F,
+                              p.block, &one, d_fields_, CUDA_R_32F, n_, compute_type_, CUBLAS_GEMM_DEFAULT));
+}
+
+void SqaSolver::warm_up() {
+    const size_t nm = static_cast<size_t>(n_) * params_.trotters;
+    init_spins_kernel<<<grid_size(nm), kThreadsPerBlock, 0, stream_>>>(d_spins_, n_, graph_.num_nodes,
+                                                                      params_.trotters, 0);
+    CUDA_CHECK(cudaGetLastError());
+    compute_fields(d_fields_);
+    sweep_block(0, 1.0f, 0.0f, 0, 1);
+    CUDA_CHECK(cudaGetLastError());
+    CUDA_CHECK(cudaStreamSynchronize(stream_));
 }
 
 double SqaSolver::max_field_error() {

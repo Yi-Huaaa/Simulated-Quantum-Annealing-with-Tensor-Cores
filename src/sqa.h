@@ -46,6 +46,9 @@ private:
     void init_couplings();
     void compute_fields(float* out);  // out = J * sigma for all Trotter slices
     void anneal(uint64_t seed);
+    // One HU block for all Trotter slices: Metropolis sweep, then the GEMM update.
+    void sweep_block(int start, float beta_eff, float j_perp, uint64_t seed, uint64_t rng_offset);
+    void warm_up();
     double max_field_error();
 
     const Graph& graph_;
@@ -59,6 +62,7 @@ private:
     float* d_scratch_ = nullptr;      // n x M, used only for verification
 
     cublasHandle_t cublas_ = nullptr;
+    cublasComputeType_t compute_type_ = CUBLAS_COMPUTE_32F;
     cudaStream_t stream_ = nullptr;
     cudaEvent_t start_ = nullptr;
     cudaEvent_t stop_ = nullptr;
