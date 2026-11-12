@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the paper below."
+title: "Simulated Quantum Annealing with Tensor Cores"
+authors:
+  - family-names: Chung
+    given-names: Yi-Hua
+  - family-names: Shih
+    given-names: Cheng-Jhih
+  - family-names: Hung
+    given-names: Shih-Hao
+license: Apache-2.0
+repository-code: "https://github.com/Yi-Huaaa/Simulated-Quantum-Annealing-with-Tensor-Cores"
+preferred-citation:
+  type: conference-paper
+  title: "Accelerating Simulated Quantum Annealing with GPU and Tensor Cores"
+  authors:
+    - family-names: Chung
+      given-names: Yi-Hua
+    - family-names: Shih
+      given-names: Cheng-Jhih
+    - family-names: Hung
+      given-names: Shih-Hao
+  collection-title: "High Performance Computing (ISC High Performance 2022)"
+  conference:
+    name: "ISC High Performance 2022"
+  publisher:
+    name: Springer
+  start: 174
+  end: 191
+  year: 2022
+  doi: "10.1007/978-3-031-07312-0_9"
