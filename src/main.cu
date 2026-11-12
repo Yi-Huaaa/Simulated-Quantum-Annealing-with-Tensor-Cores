@@ -98,7 +98,10 @@ int main(int argc, char** argv) {
     while ((opt = getopt_long(argc, argv, "m:b:n:s:r:g:h", long_options, nullptr)) != -1) {
         switch (opt) {
             case 'm': params.trotters = static_cast<int>(parse_int(optarg, "trotters", 1)); break;
-            case 'b': params.block = static_cast<int>(parse_int(optarg, "block", 1)); break;
+            case 'b':
+                params.block = static_cast<int>(parse_int(optarg, "block", 32));
+                if (params.block > 1024 || (params.block & (params.block - 1)) != 0) bad_option("block", optarg);
+                break;
             case 'n': params.size = static_cast<int>(parse_int(optarg, "size", 1)); break;
             case 's': params.steps = static_cast<int>(parse_int(optarg, "steps", 1)); break;
             case 'r': runs = static_cast<int>(parse_int(optarg, "runs", 1)); break;
